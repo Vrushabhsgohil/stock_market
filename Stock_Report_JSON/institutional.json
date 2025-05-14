@@ -1,0 +1,19 @@
+{
+  "institutional_activity": {
+    "data": {
+      "fii": {
+        "buy_value": 91187.28,
+        "sell_value": 83330.05,
+        "net_value": 7857.23
+      },
+      "dii": {
+        "buy_value": 80186,
+        "sell_value": 66444.55,
+        "net_value": 13741.45
+      },
+      "source": "MoneyControl"
+    },
+    "insight": "- Both FIIs and DIIs were net buyers, suggesting positive sentiment in the market.\n- DII buying was significantly higher than FII buying, potentially indicating increased domestic confidence or government support.\n- The net positive institutional flows are likely to provide upward momentum to the market in the short term.\n- Institutional activity may continue to be positive contingent on macroeconomic stability and corporate earnings.\n- Retail investors should carefully consider sector-specific opportunities identified by institutional buying trends.\n- This substantial net buying diverges from previous patterns, indicating a possible shift in institutional allocation towards Indian equities.\n- Investors should monitor global cues, currency fluctuations, and upcoming earnings releases for indications of continued institutional interest."
+  },
+  "timestamp": "2025-05-10T23:32:51.819184"
+}

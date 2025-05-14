@@ -1,0 +1,129 @@
+{
+  "top_performers": {
+    "top_gainers": [
+      {
+        "company_name": "ACS Technologies Ltd.",
+        "current_price": 16.3,
+        "price_change": 12.8,
+        "percentage_change": 365.7
+      },
+      {
+        "company_name": "Amit Securities Ltd.",
+        "current_price": 6.3,
+        "price_change": 2.3,
+        "percentage_change": 57.5
+      },
+      {
+        "company_name": "Parmeshwari Silk Mil..",
+        "current_price": 21.6,
+        "price_change": 3.6,
+        "percentage_change": 20
+      },
+      {
+        "company_name": "Skyline Millars Ltd.",
+        "current_price": 19.9,
+        "price_change": 3.31,
+        "percentage_change": 20
+      },
+      {
+        "company_name": "Nakoda Group of Indu..",
+        "current_price": 18.5,
+        "price_change": 3,
+        "percentage_change": 19.3
+      },
+      {
+        "company_name": "ideaForge Technology..",
+        "current_price": 460.5,
+        "price_change": 74.25,
+        "percentage_change": 19.2
+      },
+      {
+        "company_name": "TGIF Agribusiness Ltd.",
+        "current_price": 119,
+        "price_change": 19,
+        "percentage_change": 19
+      },
+      {
+        "company_name": "Premier Explosives L..",
+        "current_price": 477,
+        "price_change": 75.4,
+        "percentage_change": 18.8
+      },
+      {
+        "company_name": "Diggi Multitrade Ltd.",
+        "current_price": 19.9,
+        "price_change": 2.9,
+        "percentage_change": 17.1
+      },
+      {
+        "company_name": "Diensten Tech Ltd.",
+        "current_price": 149,
+        "price_change": 21,
+        "percentage_change": 16.4
+      }
+    ],
+    "top_losers": [
+      {
+        "company_name": "Chembond Chemicals L..",
+        "current_price": 341.8,
+        "price_change": -205.8,
+        "percentage_change": -37.6
+      },
+      {
+        "company_name": "CP Capital Ltd.",
+        "current_price": 246.1,
+        "price_change": -147.7,
+        "percentage_change": -37.5
+      },
+      {
+        "company_name": "Synoptics Technologi..",
+        "current_price": 53.4,
+        "price_change": -11.8,
+        "percentage_change": -18.1
+      },
+      {
+        "company_name": "Amiable Logistic (In..",
+        "current_price": 68.6,
+        "price_change": -14.3,
+        "percentage_change": -17.3
+      },
+      {
+        "company_name": "Superior Finlease Ltd.",
+        "current_price": 1.5,
+        "price_change": -0.28,
+        "percentage_change": -16.1
+      },
+      {
+        "company_name": "Dutron Polymers Ltd.",
+        "current_price": 126.6,
+        "price_change": -20.45,
+        "percentage_change": -13.9
+      },
+      {
+        "company_name": "Bonlon Industries Ltd.",
+        "current_price": 37,
+        "price_change": -5.31,
+        "percentage_change": -12.6
+      },
+      {
+        "company_name": "India Home Loan Ltd.",
+        "current_price": 29.5,
+        "price_change": -4.06,
+        "percentage_change": -12.1
+      },
+      {
+        "company_name": "Seasons Textiles Ltd.",
+        "current_price": 18.5,
+        "price_change": -2.54,
+        "percentage_change": -12.1
+      },
+      {
+        "company_name": "United Interactive L..",
+        "current_price": 73,
+        "price_change": -9.51,
+        "percentage_change": -11.5
+      }
+    ],
+    "insight": "- ACS Technologies Ltd.'s extraordinary gain of 365.70% warrants further investigation to ascertain the sustainability of this surge and potential risks.\n- The significant declines in Chembond Chemicals L.. and CP Capital Ltd., both experiencing losses exceeding 37%, suggest potential sector-specific headwinds or company-specific challenges requiring careful evaluation.\n- The prevalence of smaller capitalization companies among both the top gainers and losers indicates heightened volatility and speculative trading activity within this segment of the market.\n- The technology sector is exhibiting mixed performance, with ideaForge Technology.. demonstrating strong gains while Synoptics Technologi.. experienced a notable decline, suggesting selective opportunities and risks within the industry."
+  }
+}

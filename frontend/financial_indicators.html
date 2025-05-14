@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Financial Indicators Dashboard</title>
+    <style>
+        :root {
+            --primary: #1a2942;
+            --secondary: #2e4a6a;
+            --accent: #f45b5b;
+            --accent-green: #26a69a;
+            --accent-red: #ef5350;
+            --light: #f8f9fa;
+            --gray: #e9ecef;
+            --dark-gray: #6c757d;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f2f5;
+            color: var(--primary);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px 10px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header-left h1 {
+            margin: 0;
+            font-size: 28px;
+            font-weight: 700;
+        }
+        
+        .header-left p {
+            margin: 5px 0 0;
+            font-size: 14px;
+            opacity: 0.8;
+        }
+        
+        .header-right {
+            text-align: right;
+        }
+        
+        .date {
+            font-size: 16px;
+            font-weight: 500;
+        }
+        
+        .time {
+            font-size: 14px;
+            opacity: 0.8;
+        }
+        
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            grid-gap: 20px;
+            padding: 20px;
+            background-color: white;
+            border-radius: 0 0 10px 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .card {
+            background: white;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--accent);
+        }
+        
+        .card.positive::after {
+            background: var(--accent-green);
+        }
+        
+        .card.negative::after {
+            background: var(--accent-red);
+        }
+        
+        .card-title {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            font-weight: 600;
+            font-size: 16px;
+            color: var(--primary);
+        }
+        
+        .card-title i {
+            margin-right: 8px;
+            color: var(--accent);
+        }
+        
+        .card-content {
+            font-size: 14px;
+        }
+        
+        .global-card {
+            grid-column: span 12;
+        }
+        
+        .indicator-card {
+            grid-column: span 4;
+        }
+        
+        .insights-card {
+            grid-column: span 12;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        th {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid var(--gray);
+            font-weight: 600;
+            font-size: 12px;
+            color: var(--dark-gray);
+        }
+        
+        td {
+            padding: 10px;
+            border-bottom: 1px solid var(--gray);
+            font-size: 13px;
+        }
+        
+        .positive {
+            color: var(--accent-green);
+        }
+        
+        .negative {
+            color: var(--accent-red);
+        }
+        
+        .neutral {
+            color: var(--dark-gray);
+        }
+        
+        .status-pill {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        
+        .status-pill.down {
+            background-color: rgba(239, 83, 80, 0.15);
+            color: var(--accent-red);
+        }
+        
+        .status-pill.up {
+            background-color: rgba(38, 166, 154, 0.15);
+            color: var(--accent-green);
+        }
+        
+        .status-pill.neutral {
+            background-color: rgba(108, 117, 125, 0.15);
+            color: var(--dark-gray);
+        }
+        
+        .arrow-up::before {
+            content: "▲ ";
+        }
+        
+        .arrow-down::before {
+            content: "▼ ";
+        }
+        
+        .view-more {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 10px;
+            color: var(--secondary);
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+        }
+        
+        .highlight-section {
+            margin-top: 20px;
+            padding: 15px;
+            background: linear-gradient(135deg, rgba(26, 41, 66, 0.03) 0%, rgba(26, 41, 66, 0.08) 100%);
+            border-radius: 8px;
+        }
+        
+        .highlight-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+        
+        .highlight-items {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+        
+        .highlight-item {
+            text-align: center;
+            padding: 10px;
+            background-color: white;
+            border-radius: 8px;
+            flex: 1;
+            margin: 0 5px 10px;
+            min-width: 150px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+        
+        .highlight-value {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        
+        .highlight-label {
+            font-size: 11px;
+            color: var(--dark-gray);
+        }
+        
+        .highlight-change {
+            font-size: 12px;
+            font-weight: normal;
+        }
+        
+        .insights-list {
+            padding-left: 18px;
+            margin: 0;
+            line-height: 1.6;
+        }
+        
+        .insights-list li {
+            margin-bottom: 8px;
+        }
+        
+        @media (max-width: 768px) {
+            .indicator-card {
+                grid-column: span 6;
+            }
+            
+            .highlight-item {
+                min-width: 120px;
+                margin-bottom: 10px;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .indicator-card {
+                grid-column: span 12;
+            }
+            
+            .highlight-item {
+                min-width: 100%;
+                margin: 0 0 10px 0;
+            }
+        }
+        
+        .dashboard-actions {
+            margin-top: 10px;
+            display: flex;
+            gap: 10px;
+        }
+        
+        .dashboard-actions button {
+            background: var(--secondary);
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 7px 16px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        
+        .dashboard-actions button:hover {
+            background: var(--accent);
+        }
+        
+        #notification {
+            display: none;
+            color: var(--accent-green);
+            margin-top: 10px;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div style="margin-bottom: 20px;"><a href="comprehensive_report.html" style="color: var(--secondary); font-weight: 600; text-decoration: none;">← Back to Dashboard</a></div>
+        <!-- Header Section -->
+        <div class="header">
+            <div class="header-left">
+                <h1>FINANCIAL INDICATORS</h1>
+                <p>GLOBAL MARKET DASHBOARD</p>
+            </div>
+            <div class="header-right">
+                <div class="date">May 09, 2025</div>
+                <div class="time">Last updated: 14:43:16</div>
+                <div class="dashboard-actions">
+                    <button id="refresh-btn">🔄 Refresh</button>
+                    <button id="download-pdf-btn">⬇️ Download PDF</button>
+                    <button id="save-image-btn">🖼️ Save as Image</button>
+                </div>
+            </div>
+        </div>
+        <div id="notification"></div>
+        
+        <!-- Dashboard Grid -->
+        <div class="grid-container">
+            <!-- Global Indicators Overview Card -->
+            <div class="global-card card">
+                <div class="card-title">
+                    <i>🌐</i> GLOBAL MARKET INDICATORS
+                </div>
+                <div class="card-content">
+                    <div class="highlight-items">
+                        <div class="highlight-item">
+                            <div class="highlight-value positive">41,368.45 <span class="highlight-change positive arrow-up">0.62%</span></div>
+                            <div class="highlight-label">DOW JONES</div>
+                        </div>
+                        <div class="highlight-item">
+                            <div class="highlight-value positive">17,928.14 <span class="highlight-change positive arrow-up">1.07%</span></div>
+                            <div class="highlight-label">NASDAQ</div>
+                        </div>
+                        <div class="highlight-item">
+                            <div class="highlight-value positive">5,663.94 <span class="highlight-change positive arrow-up">0.58%</span></div>
+                            <div class="highlight-label">S&P 500</div>
+                        </div>
+                        <div class="highlight-item">
+                            <div class="highlight-value positive">37,503.33 <span class="highlight-change positive arrow-up">1.97%</span></div>
+                            <div class="highlight-label">NIKKEI</div>
+                        </div>
+                        <div class="highlight-item">
+                            <div class="highlight-value negative">$58.50 <span class="highlight-change negative arrow-down">1.96%</span></div>
+                            <div class="highlight-label">CRUDE OIL (WTI)</div>
+                        </div>
+                        <div class="highlight-item">
+                            <div class="highlight-value negative">$61.57 <span class="highlight-change negative arrow-down">1.28%</span></div>
+                            <div class="highlight-label">CRUDE OIL (BRENT)</div>
+                        </div>
+                        <div class="highlight-item">
+                            <div class="highlight-value neutral">N/A <span class="highlight-change neutral">N/A</span></div>
+                            <div class="highlight-label">GOLD (MCX)</div>
+                        </div>
+                        <div class="highlight-item">
+                            <div class="highlight-value negative">₹85.54 <span class="highlight-change negative arrow-up">0.86%</span></div>
+                            <div class="highlight-label">USD/INR</div>
+                        </div>
+                        <div class="highlight-item">
+                            <div class="highlight-value positive">4.37% <span class="highlight-change positive arrow-up">2.29%</span></div>
+                            <div class="highlight-label">10Y YIELD</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- US Markets Card -->
+            <div class="indicator-card card positive">
+                <div class="card-title">
+                    <i>🇺🇸</i> US MARKETS
+                </div>
+                <div class="card-content">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Index</th>
+                                <th>Value</th>
+                                <th>Change</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Dow Jones</td>
+                                <td>41,368.45</td>
+                                <td class="positive arrow-up">0.62%</td>
+                                <td><span class="status-pill up">Up</span></td>
+                            </tr>
+                            <tr>
+                                <td>Nasdaq</td>
+                                <td>17,928.14</td>
+                                <td class="positive arrow-up">1.07%</td>
+                                <td><span class="status-pill up">Up</span></td>
+                            </tr>
+                            <tr>
+                                <td>S&P 500</td>
+                                <td>5,663.94</td>
+                                <td class="positive arrow-up">0.58%</td>
+                                <td><span class="status-pill up">Up</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="view-more">View US market details →</div>
+                </div>
+            </div>
+            
+            <!-- Asian Markets Card -->
+            <div class="indicator-card card positive">
+                <div class="card-title">
+                    <i>🌏</i> ASIAN MARKETS
+                </div>
+                <div class="card-content">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Index</th>
+                                <th>Value</th>
+                                <th>Change</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Nikkei</td>
+                                <td>37,503.33</td>
+                                <td class="positive arrow-up">1.97%</td>
+                                <td><span class="status-pill up">Up</span></td>
+                            </tr>
+                            <tr>
+                                <td colspan="4" class="neutral" style="text-align: center; font-style: italic;">Additional Asian indices data unavailable</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="view-more">View Asian market details →</div>
+                </div>
+            </div>
+            
+            <!-- Commodities Card -->
+            <div class="indicator-card card negative">
+                <div class="card-title">
+                    <i>🛢️</i> COMMODITIES
+                </div>
+                <div class="card-content">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Commodity</th>
+                                <th>Value</th>
+                                <th>Change</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Crude Oil (WTI)</td>
+                                <td>$58.50</td>
+                                <td class="negative arrow-down">1.96%</td>
+                                <td><span class="status-pill down">Down</span></td>
+                            </tr>
+                            <tr>
+                                <td>Crude Oil (Brent)</td>
+                                <td>$61.57</td>
+                                <td class="negative arrow-down">1.28%</td>
+                                <td><span class="status-pill down">Down</span></td>
+                            </tr>
+                            <tr>
+                                <td>Gold (MCX)</td>
+                                <td>N/A</td>
+                                <td class="neutral">N/A</td>
+                                <td><span class="status-pill neutral">API Error</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="view-more">View commodities details →</div>
+                </div>
+            </div>
+            
+            <!-- Currency & Yields Card -->
+            <div class="global-card card">
+                <div class="card-title">
+                    <i>💱</i> CURRENCY & YIELDS
+                </div>
+                <div class="card-content">
+                    <div style="display: flex; flex-wrap: wrap; justify-content: space-between;">
+                        <div style="width: 48%; margin-bottom: 15px;">
+                            <div style="font-weight: 600; margin-bottom: 10px;">Currency Exchange</div>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Pair</th>
+                                        <th>Value</th>
+                                        <th>Change</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>USD/INR</td>
+                                        <td>₹85.54</td>
+                                        <td class="negative arrow-up">0.86%</td>
+                                        <td><span class="status-pill down">INR weakened</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div style="width: 48%; margin-bottom: 15px;">
+                            <div style="font-weight: 600; margin-bottom: 10px;">Bond Yields</div>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Type</th>
+                                        <th>Value</th>
+                                        <th>Change</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>10Y Yield</td>
+                                        <td>4.37%</td>
+                                        <td class="positive arrow-up">2.29%</td>
+                                        <td><span class="status-pill up">Up</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="view-more">View currencies and yields details →</div>
+                </div>
+            </div>
+            
+            <!-- Market Insights Card -->
+            <div class="insights-card card">
+                <div class="card-title">
+                    <i>🔍</i> MARKET INSIGHTS
+                </div>
+                <div class="card-content">
+                    <ul class="insights-list">
+                        <li>Major US indices (Dow, Nasdaq, S&P 500) and Nikkei are up, indicating positive sentiment in equity markets.</li>
+                        <li>Declining crude oil prices (WTI & Brent) suggest potential easing of inflationary pressures, but may also signal weakening global demand.</li>
+                        <li>The USD/INR increase signals a weaker Rupee, which could negatively impact import-dependent sectors in India.</li>
+                        <li>Rising 10-year Treasury yield indicates increasing investor expectations of inflation or economic growth, potentially impacting bond valuations.</li>
+                        <li>Equity markets are likely to be positively influenced by the rise in major indices, but investors should remain cautious due to the declining oil prices and weaker INR.</li>
+                        <li>Investors should monitor upcoming economic data releases and central bank communications for confirmation of sustained growth and inflation trends.</li>
+                    </ul>
+                    <div class="highlight-section">
+                        <div class="highlight-title">ANALYST RECOMMENDATIONS</div>
+                        <div style="background: linear-gradient(135deg, rgba(26, 41, 66, 0.05) 0%, rgba(26, 41, 66, 0.1) 100%); padding: 10px; border-radius: 6px;">
+                            <div style="margin-bottom: 10px;">
+                                <span style="font-weight: 600;">Market Stance:</span>
+                                <span class="status-pill up" style="margin-left: 10px;">Cautiously Optimistic</span>
+                            </div>
+                            <div style="font-size: 13px;">While global equity markets show positive momentum, investors should maintain a balanced approach with selective exposure to growth sectors. Consider defensive positioning in sectors affected by weakening INR and monitor central bank policy for potential shifts in monetary stance.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+    <script>
+    // --- Utility functions ---
+    function notify(msg, color) {
+        const n = document.getElementById('notification');
+        n.innerText = msg;
+        n.style.display = 'block';
+        n.style.color = color || 'var(--accent-green)';
+        setTimeout(() => { n.style.display = 'none'; }, 3500);
+    }
+
+    // --- Render financial indicators data from JSON ---
+    function renderFinancialIndicators(data) {
+        // This is a placeholder: you may want to update the indicators, insights, etc.
+        // For now, just update the first insight if present
+        if (data.indicators && Array.isArray(data.indicators)) {
+            const insightsList = document.querySelector('.insights-list');
+            if (insightsList) {
+                insightsList.innerHTML = data.indicators.map(line => `<li>${line}</li>`).join('');
+            }
+        }
+    }
+
+    // --- Fetch and render logic ---
+    function fetchAndRender(triggerSource, showLoading) {
+        if (showLoading) notify(triggerSource === 'manual' ? 'Refresh is happening...' : 'Loading new data...');
+        fetch('http://127.0.0.1:8009/api/indicators')
+            .then(res => res.json())
+            .then(data => {
+                renderFinancialIndicators(data);
+                sessionStorage.setItem('financial_indicators_data', JSON.stringify(data));
+                notify(triggerSource === 'auto' ? 'Auto-refresh complete' : 'Data refreshed');
+                console.log('Data refreshed by', triggerSource);
+            })
+            .catch(() => {
+                notify('Failed to refresh data', 'var(--accent-red)');
+            });
+    }
+
+    // --- Auto-refresh logic ---
+    function startAutoRefresh() {
+        setInterval(() => {
+            fetchAndRender('auto', false); // background, no loading overlay
+        }, 15 * 60 * 1000);
+    }
+
+    window.addEventListener('DOMContentLoaded', function() {
+        // 1. Try to load from sessionStorage
+        const cached = sessionStorage.getItem('financial_indicators_data');
+        if (cached) {
+            try {
+                renderFinancialIndicators(JSON.parse(cached));
+            } catch {}
+        }
+        // 2. Always fetch new data in background
+        fetchAndRender('initial', true);
+        // 3. Manual refresh
+        document.getElementById('refresh-btn').onclick = function() {
+            fetchAndRender('manual', true);
+        };
+        // 4. Download PDF
+        document.getElementById('download-pdf-btn').onclick = function() {
+            notify('Generating PDF, please wait...');
+            fetch('http://127.0.0.1:8009/api/indicators-pdf')
+                .then(response => response.blob())
+                .then(blob => {
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'financial_indicators.pdf';
+                    document.body.appendChild(a);
+                    a.click();
+                    a.remove();
+                    notify('PDF downloaded!');
+                    console.log('PDF download completed');
+                });
+            console.log('PDF download started by user');
+        };
+        // 5. Save as Image
+        document.getElementById('save-image-btn').onclick = function() {
+            html2canvas(document.body).then(canvas => {
+                const link = document.createElement('a');
+                link.download = 'financial_indicators.png';
+                link.href = canvas.toDataURL();
+                link.click();
+                notify('Image saved!');
+                console.log('Save as image triggered by user');
+            });
+        };
+        // 6. Start auto-refresh every 15 min (background)
+        startAutoRefresh();
+    });
+    </script>
+</body>
+</html>

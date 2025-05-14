@@ -1,0 +1,56 @@
+{
+  "last_updated": "2025-05-09 14:43:16",
+  "indicators": {
+    "Dow Jones": {
+      "value": "41368.45",
+      "percent_change": "0.62%",
+      "remarks": "Up"
+    },
+    "Nasdaq": {
+      "value": "17928.14",
+      "percent_change": "1.07%",
+      "remarks": "Up"
+    },
+    "S&P 500": {
+      "value": "5663.94",
+      "percent_change": "0.58%",
+      "remarks": "Up"
+    },
+    "Nikkei": {
+      "value": "37503.33",
+      "percent_change": "1.97%",
+      "remarks": "Up"
+    },
+    "Crude Oil (WTI)": {
+      "value": "$58.5",
+      "percent_change": "-1.96%",
+      "remarks": "Down"
+    },
+    "Crude Oil (Brent)": {
+      "value": "$61.57",
+      "percent_change": "-1.28%",
+      "remarks": "Down"
+    },
+    "Gold (MCX)": {
+      "value": "N/A",
+      "percent_change": "N/A",
+      "remarks": "API Error: Unknown error"
+    },
+    "USD/INR": {
+      "value": "₹85.54",
+      "percent_change": "0.86%",
+      "remarks": "INR weakened"
+    },
+    "10Y Yield": {
+      "value": "4.37%",
+      "percent_change": "2.29%",
+      "remarks": "Up"
+    },
+    "_insights": {
+      "value": "- Major US indices (Dow, Nasdaq, S&P 500) and Nikkei are up, indicating positive sentiment in equity markets.\n- Declining crude oil prices (WTI & Brent) suggest potential easing of inflationary pressures, but may also signal weakening global demand.\n- The USD/INR increase signals a weaker Rupee, which could negatively impact import-dependent sectors in India.\n- Rising 10-year Treasury yield indicates increasing investor expectations of inflation or economic growth, potentially impacting bond valuations.\n- Equity markets are likely to be positively influenced by the rise in major indices, but investors should remain cautious due to the declining oil prices and weaker INR.\n- Investors should monitor upcoming economic data releases and central bank communications for confirmation of sustained growth and inflation trends.",
+      "percent_change": "",
+      "remarks": "AI-generated insights"
+    }
+  },
+  "insights": null
+}

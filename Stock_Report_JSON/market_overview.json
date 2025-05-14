@@ -1,0 +1,71 @@
+{
+  "date": "2025-05-09",
+  "timestamp": "14:37:10",
+  "market_data": {
+    "_meta": {
+      "date": "2025-05-09",
+      "timestamp": "14:37:10"
+    },
+    "^NSEI": {
+      "Open": 23935.75,
+      "High": 24164.25,
+      "Low": 23935.75,
+      "Close": 23980.2,
+      "Change": -434.2,
+      "Change%": -1.78,
+      "PrevClose": 24414.4,
+      "FetchedFrom": "^NSEI"
+    },
+    "^BSESN": {
+      "Open": 78968.34,
+      "High": 80032.93,
+      "Low": 78968.34,
+      "Close": 79448.72,
+      "Change": -1298.06,
+      "Change%": -1.61,
+      "PrevClose": 80746.78,
+      "FetchedFrom": "^BSESN"
+    },
+    "^CRSLDX": {
+      "Open": 21463.75,
+      "High": 21716.05,
+      "Low": 21463.75,
+      "Close": 21625.6,
+      "Change": -446.85,
+      "Change%": -2.02,
+      "PrevClose": 22072.45,
+      "FetchedFrom": "^CRSLDX"
+    },
+    "^NSEBANK": {
+      "Open": 53595.95,
+      "High": 54054.8,
+      "Low": 53483.05,
+      "Close": 53562.15,
+      "Change": -1048.75,
+      "Change%": -1.92,
+      "PrevClose": 54610.9,
+      "FetchedFrom": "^NSEBANK"
+    },
+    "^CNXIT": {
+      "Open": 35490.9,
+      "High": 35929.3,
+      "Low": 35488.4,
+      "Close": 35849.3,
+      "Change": -71,
+      "Change%": -0.2,
+      "PrevClose": 35920.3,
+      "FetchedFrom": "^CNXIT"
+    },
+    "^NSEMDCP50": {
+      "Open": 14785.05,
+      "High": 15073.4,
+      "Low": 14783.9,
+      "Close": 15040.1,
+      "Change": -367.3,
+      "Change%": -2.38,
+      "PrevClose": 15407.4,
+      "FetchedFrom": "^NSEMDCP50"
+    }
+  },
+  "insights": "The Indian market exhibited a significantly negative sentiment today, evidenced by substantial declines across major indices. NIFTY 50 and SENSEX both experienced considerable drops of -1.78% and -1.61% respectively, indicating broad-based selling pressure. Banking sector faced significant pressure, with Bank Nifty falling by -1.92%, contributing to the overall downturn, while the Nifty IT index relatively outperformed with a minimal decline of -0.2%. The Nifty Midcap 50 experienced the sharpest correction among the indices with a decrease of -2.38%, suggesting heightened risk aversion towards mid-sized companies. The broad-based selling could be attributed to profit-taking after recent gains and potentially influenced by global market cues or domestic economic concerns. Given today's performance, a cautious outlook is warranted, with potential for continued volatility in the near term."
+}

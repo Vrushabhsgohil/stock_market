@@ -1,0 +1,31 @@
+{
+  "news_impact": [
+    "- Rising India-Pakistan tension boosts defense stocks like HAL and Bharat Forge, signaling sector growth.",
+    "- Weakening U.S. dollar and OPEC+ production increases put downward pressure on crude oil prices.",
+    "- Analyst recommendations lean towards \"Sell on Rise\" for Nifty, indicating bearish sentiment.",
+    "- Treasury yields remain stable as investors closely monitor ongoing global trade negotiations.",
+    "- Economic uncertainty in China persists, despite PBOC measures, impacting global markets.",
+    "- UK-U.S. trade deal is welcomed by Bank of England, suggesting positive impacts on UK economy.",
+    "- Falling Nifty suggests risk-off sentiment prevailing in the Indian equity market."
+  ],
+  "india_news": [
+    "- India-Pakistan tension fuels a surge in drone and defense stocks, indicating potential for sector growth.",
+    "- Bharat Forge gains 5% due to rising tensions, hinting at increased defense order book potential.",
+    "- Nifty experiences a significant intraday fall, wiping out Rs 3.5 lakh crore of market capitalization.",
+    "- Analysts predict further Nifty downside, advising \"Sell on Rise\" strategy for the coming week.",
+    "- Titan shares buck market trend, rallying 5% despite overall market decline.",
+    "- Karachi Stock Exchange recovers slightly after a 10% drop, indicating volatile regional sentiment.",
+    "- Diagnostic companies remain in focus amidst market volatility for potential investment."
+  ],
+  "global_news": [
+    "- U.S. crude oil closes at its lowest since 2021 after OPEC+ agreement for increased production.",
+    "- Fed faces a dilemma balancing inflation control and maintaining full employment.",
+    "- Aluminum sector remains in a bind, failing to relocate to the U.S. despite tariffs.",
+    "- Morgan Stanley forecasts a long-term weakening trend for the U.S. dollar.",
+    "- PBOC actions are insufficient to stimulate China's economy out of its current holding pattern.",
+    "- Europe stocks show mixed performance, with FTSE 100 falling amidst trade deal news.",
+    "- Taiwan dollar softens after historic surge, as authorities deny currency manipulation talks."
+  ],
+  "timestamp": "2025-05-09T14:42:11.680362",
+  "status": "success"
+}

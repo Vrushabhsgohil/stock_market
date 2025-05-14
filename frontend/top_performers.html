@@ -1,0 +1,1054 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Top Performers Dashboard</title>
+    <style>
+        :root {
+            --primary: #1a2942;
+            --secondary: #2e4a6a;
+            --accent: #f45b5b;
+            --accent-green: #26a69a;
+            --accent-red: #ef5350;
+            --light: #f8f9fa;
+            --gray: #e9ecef;
+            --dark-gray: #6c757d;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f2f5;
+            color: var(--primary);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px 10px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header-left h1 {
+            margin: 0;
+            font-size: 28px;
+            font-weight: 700;
+        }
+        
+        .header-left p {
+            margin: 5px 0 0;
+            font-size: 14px;
+            opacity: 0.8;
+        }
+        
+        .header-right {
+            text-align: right;
+        }
+        
+        .date {
+            font-size: 16px;
+            font-weight: 500;
+        }
+        
+        .time {
+            font-size: 14px;
+            opacity: 0.8;
+        }
+        
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            grid-gap: 20px;
+            padding: 20px;
+            background-color: white;
+            border-radius: 0 0 10px 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .card {
+            background: white;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--accent);
+        }
+        
+        .card.positive::after {
+            background: var(--accent-green);
+        }
+        
+        .card.negative::after {
+            background: var(--accent-red);
+        }
+        
+        .card-title {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            font-weight: 600;
+            font-size: 16px;
+            color: var(--primary);
+        }
+        
+        .card-title i {
+            margin-right: 8px;
+            color: var(--accent);
+        }
+        
+        .card.positive .card-title i {
+            color: var(--accent-green);
+        }
+        
+        .card.negative .card-title i {
+            color: var(--accent-red);
+        }
+        
+        .card-content {
+            font-size: 14px;
+        }
+        
+        .full-width-card {
+            grid-column: span 12;
+        }
+        
+        .half-width-card {
+            grid-column: span 6;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        th {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid var(--gray);
+            font-weight: 600;
+            font-size: 12px;
+            color: var(--dark-gray);
+        }
+        
+        td {
+            padding: 12px 10px;
+            border-bottom: 1px solid var(--gray);
+            font-size: 13px;
+        }
+        
+        tr:last-child td {
+            border-bottom: none;
+        }
+        
+        tr:hover {
+            background-color: rgba(26, 41, 66, 0.02);
+        }
+        
+        .positive {
+            color: var(--accent-green);
+        }
+        
+        .negative {
+            color: var(--accent-red);
+        }
+        
+        .view-more {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 15px;
+            color: var(--secondary);
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+        }
+        
+        .arrow-up::before {
+            content: "▲ ";
+        }
+        
+        .arrow-down::before {
+            content: "▼ ";
+        }
+        
+        .insights-list {
+            padding-left: 18px;
+            margin: 0;
+            line-height: 1.6;
+        }
+        
+        .insights-list li {
+            margin-bottom: 10px;
+        }
+        
+        .stock-info {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .stock-name {
+            font-weight: 500;
+        }
+        
+        .stock-price {
+            margin-top: 5px;
+            font-weight: 600;
+        }
+        
+        .price-change {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+        }
+        
+        .percent-change {
+            font-weight: 600;
+            font-size: 14px;
+        }
+        
+        .abs-change {
+            margin-top: 5px;
+            font-size: 12px;
+            opacity: 0.8;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 1px 6px;
+            border-radius: 4px;
+            font-size: 10px;
+            font-weight: 600;
+            margin-left: 5px;
+            vertical-align: middle;
+        }
+        
+        .badge-sector {
+            background-color: rgba(26, 41, 66, 0.1);
+            color: var(--primary);
+        }
+        
+        .badge-new {
+            background-color: rgba(38, 166, 154, 0.15);
+            color: var(--accent-green);
+        }
+        
+        .top-stock {
+            background-color: var(--light);
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .top-stock-info {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .top-stock-label {
+            font-size: 12px;
+            color: var(--dark-gray);
+            margin-bottom: 5px;
+        }
+        
+        .top-stock-name {
+            font-size: 16px;
+            font-weight: 600;
+        }
+        
+        .top-stock-price {
+            font-size: 14px;
+            margin-top: 5px;
+        }
+        
+        .top-stock-change {
+            text-align: right;
+        }
+        
+        .top-stock-percent {
+            font-size: 20px;
+            font-weight: 700;
+        }
+        
+        .top-stock-abs {
+            font-size: 12px;
+            margin-top: 5px;
+        }
+        
+        .highlight-section {
+            margin-top: 20px;
+            padding: 15px;
+            background: linear-gradient(135deg, rgba(26, 41, 66, 0.03) 0%, rgba(26, 41, 66, 0.08) 100%);
+            border-radius: 8px;
+        }
+        
+        .highlight-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+        
+        .sector-tag {
+            display: inline-block;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 10px;
+            font-weight: 600;
+            margin-left: 5px;
+        }
+        
+        .sector-tag.tech {
+            background-color: rgba(33, 150, 243, 0.15);
+            color: #2196f3;
+        }
+        
+        .sector-tag.textile {
+            background-color: rgba(156, 39, 176, 0.15);
+            color: #9c27b0;
+        }
+        
+        .sector-tag.chem {
+            background-color: rgba(255, 87, 34, 0.15);
+            color: #ff5722;
+        }
+        
+        .sector-tag.finance {
+            background-color: rgba(255, 193, 7, 0.15);
+            color: #ffc107;
+        }
+        
+        .sector-tag.defense {
+            background-color: rgba(233, 30, 99, 0.15);
+            color: #e91e63;
+        }
+        
+        .sector-tag.agri {
+            background-color: rgba(76, 175, 80, 0.15);
+            color: #4caf50;
+        }
+        
+        .performance-meter {
+            height: 6px;
+            background-color: var(--gray);
+            border-radius: 3px;
+            margin-top: 5px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .performance-fill {
+            height: 100%;
+            position: absolute;
+            border-radius: 3px;
+        }
+        
+        .performance-fill.positive {
+            background-color: var(--accent-green);
+            left: 50%;
+        }
+        
+        .performance-fill.negative {
+            background-color: var(--accent-red);
+            right: 50%;
+        }
+        
+        @media (max-width: 768px) {
+            .half-width-card {
+                grid-column: span 12;
+            }
+        }
+        
+        .dashboard-actions {
+            margin-top: 10px;
+            display: flex;
+            gap: 10px;
+        }
+        
+        .dashboard-actions button {
+            background: var(--secondary);
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 7px 16px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        
+        .dashboard-actions button:hover {
+            background: var(--accent);
+        }
+        
+        #notification {
+            display: none;
+            color: var(--accent-green);
+            margin-top: 10px;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div style="margin-bottom: 20px;"><a href="comprehensive_report.html" style="color: var(--secondary); font-weight: 600; text-decoration: none;">← Back to Dashboard</a></div>
+        <!-- Header Section -->
+        <div class="header">
+            <div class="header-left">
+                <h1>TOP PERFORMERS</h1>
+                <p>MARKET MOVERS ANALYSIS</p>
+            </div>
+            <div class="header-right">
+                <div class="date">May 09, 2025</div>
+                <div class="time">Market Close</div>
+                <div class="dashboard-actions">
+                    <button id="refresh-btn">🔄 Refresh</button>
+                    <button id="save-image-btn">🖼️ Save as Image</button>
+                </div>
+            </div>
+        </div>
+        <div id="notification"></div>
+        
+        <!-- Dashboard Grid -->
+        <div class="grid-container">
+            <!-- Market Overview Card -->
+            <div class="full-width-card card">
+                <div class="card-title">
+                    <i>📊</i> MARKET MOVERS OVERVIEW
+                </div>
+                <div class="card-content">
+                    <div style="display: flex; flex-wrap: wrap; justify-content: space-between;">
+                        <div style="width: 48%;">
+                            <div class="top-stock">
+                                <div class="top-stock-info">
+                                    <div class="top-stock-label">TOP GAINER</div>
+                                    <div class="top-stock-name">ACS Technologies Ltd. <span class="sector-tag tech">TECH</span></div>
+                                    <div class="top-stock-price">₹16.30</div>
+                                </div>
+                                <div class="top-stock-change">
+                                    <div class="top-stock-percent positive arrow-up">365.70%</div>
+                                    <div class="top-stock-abs positive">+₹12.80</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="width: 48%;">
+                            <div class="top-stock">
+                                <div class="top-stock-info">
+                                    <div class="top-stock-label">TOP LOSER</div>
+                                    <div class="top-stock-name">Chembond Chemicals Ltd. <span class="sector-tag chem">CHEM</span></div>
+                                    <div class="top-stock-price">₹341.80</div>
+                                </div>
+                                <div class="top-stock-change">
+                                    <div class="top-stock-percent negative arrow-down">37.60%</div>
+                                    <div class="top-stock-abs negative">-₹205.80</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="highlight-section">
+                        <div class="highlight-title">PERFORMANCE INSIGHTS</div>
+                        <ul class="insights-list">
+                            <li>ACS Technologies Ltd.'s extraordinary gain of 365.70% warrants further investigation to ascertain the sustainability of this surge and potential risks.</li>
+                            <li>The significant declines in Chembond Chemicals Ltd. and CP Capital Ltd., both experiencing losses exceeding 37%, suggest potential sector-specific headwinds or company-specific challenges requiring careful evaluation.</li>
+                            <li>The prevalence of smaller capitalization companies among both the top gainers and losers indicates heightened volatility and speculative trading activity within this segment of the market.</li>
+                            <li>The technology sector is exhibiting mixed performance, with ideaForge Technology demonstrating strong gains while Synoptics Technologies experienced a notable decline, suggesting selective opportunities and risks within the industry.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Top Gainers Card -->
+            <div class="half-width-card card positive">
+                <div class="card-title">
+                    <i>📈</i> TOP GAINERS
+                </div>
+                <div class="card-content">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Company</th>
+                                <th>Price</th>
+                                <th>Change</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="stock-info">
+                                        <span class="stock-name">ACS Technologies Ltd.</span>
+                                        <div class="performance-meter">
+                                            <div class="performance-fill positive" style="width: 50%;"></div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>₹16.30</td>
+                                <td>
+                                    <div class="price-change">
+                                        <span class="percent-change positive arrow-up">365.70%</span>
+                                        <span class="abs-change positive">+₹12.80</span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="stock-info">
+                                        <span class="stock-name">Amit Securities Ltd.</span>
+                                        <div class="performance-meter">
+                                            <div class="performance-fill positive" style="width: 7.86%;"></div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>₹6.30</td>
+                                <td>
+                                    <div class="price-change">
+                                        <span class="percent-change positive arrow-up">57.50%</span>
+                                        <span class="abs-change positive">+₹2.30</span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="stock-info">
+                                        <span class="stock-name">Parmeshwari Silk Mill..</span>
+                                        <div class="performance-meter">
+                                            <div class="performance-fill positive" style="width: 2.73%;"></div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>₹21.60</td>
+                                <td>
+                                    <div class="price-change">
+                                        <span class="percent-change positive arrow-up">20.00%</span>
+                                        <span class="abs-change positive">+₹3.60</span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="stock-info">
+                                        <span class="stock-name">Skyline Millars Ltd.</span>
+                                        <div class="performance-meter">
+                                            <div class="performance-fill positive" style="width: 2.73%;"></div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>₹19.90</td>
+                                <td>
+                                    <div class="price-change">
+                                        <span class="percent-change positive arrow-up">20.00%</span>
+                                        <span class="abs-change positive">+₹3.31</span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="stock-info">
+                                        <span class="stock-name">Nakoda Group of Indu..</span>
+                                        <div class="performance-meter">
+                                            <div class="performance-fill positive" style="width: 2.64%;"></div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>₹18.50</td>
+                                <td>
+                                    <div class="price-change">
+                                        <span class="percent-change positive arrow-up">19.30%</span>
+                                        <span class="abs-change positive">+₹3.00</span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="stock-info">
+                                        <span class="stock-name">ideaForge Technology.. <span class="sector-tag defense">DEFENSE</span></span>
+                                        <div class="performance-meter">
+                                            <div class="performance-fill positive" style="width: 2.63%;"></div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>₹460.50</td>
+                                <td>
+                                    <div class="price-change">
+                                        <span class="percent-change positive arrow-up">19.20%</span>
+                                        <span class="abs-change positive">+₹74.25</span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="stock-info">
+                                        <span class="stock-name">TGIF Agribusiness Ltd. <span class="sector-tag agri">AGRI</span></span>
+                                        <div class="performance-meter">
+                                            <div class="performance-fill positive" style="width: 2.60%;"></div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>₹119.00</td>
+                                <td>
+                                    <div class="price-change">
+                                        <span class="percent-change positive arrow-up">19.00%</span>
+                                        <span class="abs-change positive">+₹19.00</span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="stock-info">
+                                        <span class="stock-name">Premier Explosives L.. <span class="sector-tag defense">DEFENSE</span></span>
+                                        <div class="performance-meter">
+                                            <div class="performance-fill positive" style="width: 2.57%;"></div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>₹477.00</td>
+                                <td>
+                                    <div class="price-change">
+                                        <span class="percent-change positive arrow-up">18.80%</span>
+                                        <span class="abs-change positive">+₹75.40</span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="stock-info">
+                                        <span class="stock-name">Diggi Multitrade Ltd.</span>
+                                        <div class="performance-meter">
+                                            <div class="performance-fill positive" style="width: 2.34%;"></div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>₹19.90</td>
+                                <td>
+                                    <div class="price-change">
+                                        <span class="percent-change positive arrow-up">17.10%</span>
+                                        <span class="abs-change positive">+₹2.90</span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="stock-info">
+                                        <span class="stock-name">Diensten Tech Ltd. <span class="sector-tag tech">TECH</span></span>
+                                        <div class="performance-meter">
+                                            <div class="performance-fill positive" style="width: 2.24%;"></div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>₹149.00</td>
+                                <td>
+                                    <div class="price-change">
+                                        <span class="percent-change positive arrow-up">16.40%</span>
+                                        <span class="abs-change positive">+₹21.00</span>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="view-more">View all gainers →</div>
+                </div>
+            </div>
+            
+            <!-- Top Losers Card -->
+            <div class="half-width-card card negative">
+                <div class="card-title">
+                    <i>📉</i> TOP LOSERS
+                </div>
+                <div class="card-content">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Company</th>
+                                <th>Price</th>
+                                <th>Change</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="stock-info">
+                                        <span class="stock-name">Chembond Chemicals L.. <span class="sector-tag chem">CHEM</span></span>
+                                        <div class="performance-meter">
+                                            <div class="performance-fill negative" style="width: 50%;"></div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>₹341.80</td>
+                                <td>
+                                    <div class="price-change">
+                                        <span class="percent-change negative arrow-down">37.60%</span>
+                                        <span class="abs-change negative">-₹205.80</span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="stock-info">
+                                        <span class="stock-name">CP Capital Ltd. <span class="sector-tag finance">FINANCE</span></span>
+                                        <div class="performance-meter">
+                                            <div class="performance-fill negative" style="width: 49.87%;"></div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>₹246.10</td>
+                                <td>
+                                    <div class="price-change">
+                                        <span class="percent-change negative arrow-down">37.50%</span>
+                                        <span class="abs-change negative">-₹147.70</span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="stock-info">
+                                        <span class="stock-name">Synoptics Technologi.. <span class="sector-tag tech">TECH</span></span>
+                                        <div class="performance-meter">
+                                            <div class="performance-fill negative" style="width: 24.04%;"></div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>₹53.40</td>
+                                <td>
+                                    <div class="price-change">
+                                        <span class="percent-change negative arrow-down">18.10%</span>
+                                        <span class="abs-change negative">-₹11.80</span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="stock-info">
+                                        <span class="stock-name">Amiable Logistic (In..</span>
+                                        <div class="performance-meter">
+                                            <div class="performance-fill negative" style="width: 23.01%;"></div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>₹68.60</td>
+                                <td>
+                                    <div class="price-change">
+                                        <span class="percent-change negative arrow-down">17.30%</span>
+                                        <span class="abs-change negative">-₹14.30</span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="stock-info">
+                                        <span class="stock-name">Superior Finlease Ltd. <span class="sector-tag finance">FINANCE</span></span>
+                                        <div class="performance-meter">
+                                            <div class="performance-fill negative" style="width: 21.41%;"></div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>₹1.50</td>
+                                <td>
+                                    <div class="price-change">
+                                        <span class="percent-change negative arrow-down">16.10%</span>
+                                        <span class="abs-change negative">-₹0.28</span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="stock-info">
+                                        <span class="stock-name">Dutron Polymers Ltd. <span class="sector-tag chem">CHEM</span></span>
+                                        <div class="performance-meter">
+                                            <div class="performance-fill negative" style="width: 18.49%;"></div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>₹126.60</td>
+                                <td>
+                                    <div class="price-change">
+                                        <span class="percent-change negative arrow-down">13.90%</span>
+                                        <span class="abs-change negative">-₹20.45</span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="stock-info">
+                                        <span class="stock-name">Bonlon Industries Ltd.</span>
+                                        <div class="performance-meter">
+                                            <div class="performance-fill negative" style="width: 16.76%;"></div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>₹37.00</td>
+                                <td>
+                                    <div class="price-change">
+                                        <span class="percent-change negative arrow-down">12.60%</span>
+                                        <span class="abs-change negative">-₹5.31</span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="stock-info">
+                                        <span class="stock-name">India Home Loan Ltd. <span class="sector-tag finance">FINANCE</span></span>
+                                        <div class="performance-meter">
+                                            <div class="performance-fill negative" style="width: 16.09%;"></div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>₹29.50</td>
+                                <td>
+                                    <div class="price-change">
+                                        <span class="percent-change negative arrow-down">12.10%</span>
+                                        <span class="abs-change negative">-₹4.06</span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="stock-info">
+                                        <span class="stock-name">Seasons Textiles Ltd. <span class="sector-tag textile">TEXTILE</span></span>
+                                        <div class="performance-meter">
+                                            <div class="performance-fill negative" style="width: 16.09%;"></div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>₹18.50</td>
+                                <td>
+                                    <div class="price-change">
+                                        <span class="percent-change negative arrow-down">12.10%</span>
+                                        <span class="abs-change negative">-₹2.54</span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="stock-info">
+                                        <span class="stock-name">United Interactive L..</span>
+                                        <div class="performance-meter">
+                                            <div class="performance-fill negative" style="width: 15.29%;"></div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>₹73.00</td>
+                                <td>
+                                    <div class="price-change">
+                                        <span class="percent-change negative arrow-down">11.50%</span>
+                                        <span class="abs-change negative">-₹9.51</span>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="view-more">View all losers →</div>
+                </div>
+            </div>
+            
+            <!-- Sector Analysis Card -->
+            <div class="full-width-card card">
+                <div class="card-title">
+                    <i>🧩</i> SECTOR PERFORMANCE ANALYSIS
+                </div>
+                <div class="card-content">
+                    <div style="display: flex; flex-wrap: wrap; justify-content: space-between;">
+                        <div style="width: 48%; margin-bottom: 20px;">
+                            <div style="font-weight: 600; margin-bottom: 15px; color: var(--accent-green);">Top Performing Sectors</div>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Sector</th>
+                                        <th>Top Performer</th>
+                                        <th>Performance</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><span class="sector-tag defense">DEFENSE</span> Defense</td>
+                                        <td>ideaForge Technology</td>
+                                        <td class="positive arrow-up">19.20%</td>
+                                    </tr>
+                                    <tr>
+                                        <td><span class="sector-tag tech">TECH</span> Technology</td>
+                                        <td>ACS Technologies</td>
+                                        <td class="positive arrow-up">365.70%</td>
+                                    </tr>
+                                    <tr>
+                                        <td><span class="sector-tag agri">AGRI</span> Agriculture</td>
+                                        <td>TGIF Agribusiness</td>
+                                        <td class="positive arrow-up">19.00%</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div style="width: 48%; margin-bottom: 20px;">
+                            <div style="font-weight: 600; margin-bottom: 15px; color: var(--accent-red);">Underperforming Sectors</div>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Sector</th>
+                                        <th>Top Loser</th>
+                                        <th>Performance</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><span class="sector-tag chem">CHEM</span> Chemicals</td>
+                                        <td>Chembond Chemicals</td>
+                                        <td class="negative arrow-down">37.60%</td>
+                                    </tr>
+                                    <tr>
+                                        <td><span class="sector-tag finance">FINANCE</span> Finance</td>
+                                        <td>CP Capital</td>
+                                        <td class="negative arrow-down">37.50%</td>
+                                    </tr>
+                                    <tr>
+                                        <td><span class="sector-tag textile">TEXTILE</span> Textiles</td>
+                                        <td>Seasons Textiles</td>
+                                        <td class="negative arrow-down">12.10%</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <div style="background: linear-gradient(135deg, rgba(26, 41, 66, 0.05) 0%, rgba(26, 41, 66, 0.1) 100%); padding: 15px; border-radius: 8px;">
+                        <div style="font-weight: 600; margin-bottom: 10px;">TRADING OPPORTUNITIES</div>
+                        <div style="font-size: 13px; line-height: 1.6;">
+                            <p>The current market scenario presents several potential opportunities and risks that investors should consider:</p>
+                            
+                            <ul style="padding-left: 20px; margin-top: 10px;">
+                                <li><strong>Speculative Caution:</strong> The extreme moves in small-cap stocks like ACS Technologies (365.70%) and Chembond Chemicals (-37.60%) suggest heightened speculative activity. Investors should approach these stocks with caution and implement strict risk management.</li>
+                                <li><strong>Sector Rotation:</strong> Defense stocks like ideaForge Technology and Premier Explosives show strength, potentially benefiting from geopolitical developments. This sector may offer relative stability amid broader market fluctuations.</li>
+                                <li><strong>Technology Selectivity:</strong> The technology sector shows mixed performance, requiring a selective approach. While ACS Technologies and Diensten Tech show strength, Synoptics Technologies faces significant pressure.</li>
+                                <li><strong>Chemical Sector Weakness:</strong> The sharp declines in chemical stocks like Chembond Chemicals and Dutron Polymers suggest potential structural challenges in the sector that may persist in the near term.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+    <script>
+    // --- Utility functions ---
+    function notify(msg, color) {
+        const n = document.getElementById('notification');
+        n.innerText = msg;
+        n.style.display = 'block';
+        n.style.color = color || 'var(--accent-green)';
+        setTimeout(() => { n.style.display = 'none'; }, 3500);
+    }
+
+    // --- Render top performers data from JSON ---
+    function renderTopPerformers(data) {
+        // This is a placeholder: you may want to update the gainers/losers tables, insights, etc.
+        // For now, just update the first gainer/loser in the overview cards if present
+        if (data.top_performers) {
+            const gainers = data.top_performers.top_gainers || [];
+            const losers = data.top_performers.top_losers || [];
+            // Top gainer
+            if (gainers.length) {
+                const gainerName = document.querySelector('.top-stock-name');
+                const gainerPrice = document.querySelector('.top-stock-price');
+                const gainerPercent = document.querySelector('.top-stock-percent.positive');
+                const gainerAbs = document.querySelector('.top-stock-abs.positive');
+                if (gainerName) gainerName.innerText = gainers[0].company_name;
+                if (gainerPrice) gainerPrice.innerText = `₹${gainers[0].current_price}`;
+                if (gainerPercent) gainerPercent.innerText = `${gainers[0].percentage_change}%`;
+                if (gainerAbs) gainerAbs.innerText = `+₹${gainers[0].price_change}`;
+            }
+            // Top loser
+            if (losers.length) {
+                const loserName = document.querySelector('.top-stock-name ~ .top-stock-name');
+                const loserPrice = document.querySelectorAll('.top-stock-price')[1];
+                const loserPercent = document.querySelector('.top-stock-percent.negative');
+                const loserAbs = document.querySelector('.top-stock-abs.negative');
+                if (loserName) loserName.innerText = losers[0].company_name;
+                if (loserPrice) loserPrice.innerText = `₹${losers[0].current_price}`;
+                if (loserPercent) loserPercent.innerText = `${Math.abs(losers[0].percentage_change)}%`;
+                if (loserAbs) loserAbs.innerText = `-₹${Math.abs(losers[0].price_change)}`;
+            }
+        }
+    }
+
+    // --- Fetch and render logic ---
+    function fetchAndRender(triggerSource, showLoading) {
+        if (showLoading) notify(triggerSource === 'manual' ? 'Refresh is happening...' : 'Loading new data...');
+        fetch('http://127.0.0.1:8009/api/top-performers')
+            .then(res => res.json())
+            .then(data => {
+                renderTopPerformers(data);
+                sessionStorage.setItem('top_performers_data', JSON.stringify(data));
+                notify(triggerSource === 'auto' ? 'Auto-refresh complete' : 'Data refreshed');
+                console.log('Data refreshed by', triggerSource);
+            })
+            .catch(() => {
+                notify('Failed to refresh data', 'var(--accent-red)');
+            });
+    }
+
+    // --- Auto-refresh logic ---
+    function startAutoRefresh() {
+        setInterval(() => {
+            fetchAndRender('auto', false); // background, no loading overlay
+        }, 15 * 60 * 1000);
+    }
+
+    window.addEventListener('DOMContentLoaded', function() {
+        // 1. Try to load from sessionStorage
+        const cached = sessionStorage.getItem('top_performers_data');
+        if (cached) {
+            try {
+                renderTopPerformers(JSON.parse(cached));
+            } catch {}
+        }
+        // 2. Always fetch new data in background
+        fetchAndRender('initial', true);
+        // 3. Manual refresh
+        document.getElementById('refresh-btn').onclick = function() {
+            fetchAndRender('manual', true);
+        };
+        // 4. Save as Image
+        document.getElementById('save-image-btn').onclick = function() {
+            html2canvas(document.body).then(canvas => {
+                const link = document.createElement('a');
+                link.download = 'top_performers.png';
+                link.href = canvas.toDataURL();
+                link.click();
+                notify('Image saved!');
+                console.log('Save as image triggered by user');
+            });
+        };
+        // 5. Start auto-refresh every 15 min (background)
+        startAutoRefresh();
+    });
+    </script>
+</body>
+</html>

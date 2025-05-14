@@ -1,0 +1,14 @@
+.env
+temp_pdfs/
+temp_reports/
+venv/
+__pycache__
+macro.log
+market_analysis.log
+market_api.log
+market_data_20250506.json
+market_data.log
+stock.zip
+__pycache__/
+./Stock_Report_JSON
+./Stock_Report_PDF

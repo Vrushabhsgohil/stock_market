@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>News Highlights Dashboard</title>
+    <style>
+        :root {
+            --primary: #1a2942;
+            --secondary: #2e4a6a;
+            --accent: #f45b5b;
+            --accent-green: #26a69a;
+            --accent-red: #ef5350;
+            --light: #f8f9fa;
+            --gray: #e9ecef;
+            --dark-gray: #6c757d;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f2f5;
+            color: var(--primary);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px 10px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header-left h1 {
+            margin: 0;
+            font-size: 28px;
+            font-weight: 700;
+        }
+        
+        .header-left p {
+            margin: 5px 0 0;
+            font-size: 14px;
+            opacity: 0.8;
+        }
+        
+        .header-right {
+            text-align: right;
+        }
+        
+        .date {
+            font-size: 16px;
+            font-weight: 500;
+        }
+        
+        .time {
+            font-size: 14px;
+            opacity: 0.8;
+        }
+        
+        .dashboard-actions {
+            margin-top: 10px;
+            display: flex;
+            gap: 10px;
+        }
+        
+        .dashboard-actions button {
+            background: var(--secondary);
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 7px 16px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        
+        .dashboard-actions button:hover {
+            background: var(--accent);
+        }
+        
+        #notification {
+            display: none;
+            color: var(--accent-green);
+            margin-top: 10px;
+            font-weight: 600;
+        }
+        
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            grid-gap: 20px;
+            padding: 20px;
+            background-color: white;
+            border-radius: 0 0 10px 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .card {
+            background: white;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--accent);
+        }
+        
+        .card.india-card::after {
+            background: #FF9933; /* Indian flag orange */
+        }
+        
+        .card.global-card::after {
+            background: #3797dc; /* Global blue */
+        }
+        
+        .card.impact-card::after {
+            background: var(--accent);
+        }
+        
+        .card-title {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            font-weight: 600;
+            font-size: 16px;
+            color: var(--primary);
+        }
+        
+        .card-title i {
+            margin-right: 8px;
+            color: var(--accent);
+        }
+        
+        .india-card .card-title i {
+            color: #FF9933; /* Indian flag orange */
+        }
+        
+        .global-card .card-title i {
+            color: #3797dc; /* Global blue */
+        }
+        
+        .card-content {
+            font-size: 14px;
+        }
+        
+        .full-width-card {
+            grid-column: span 12;
+        }
+        
+        .half-width-card {
+            grid-column: span 6;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        th {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid var(--gray);
+            font-weight: 600;
+            font-size: 12px;
+            color: var(--dark-gray);
+        }
+        
+        td {
+            padding: 10px;
+            border-bottom: 1px solid var(--gray);
+            font-size: 13px;
+        }
+        
+        .positive {
+            color: var(--accent-green);
+        }
+        
+        .negative {
+            color: var(--accent-red);
+        }
+        
+        .status-pill {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        
+        .status-pill.bearish {
+            background-color: rgba(239, 83, 80, 0.15);
+            color: var(--accent-red);
+        }
+        
+        .status-pill.bullish {
+            background-color: rgba(38, 166, 154, 0.15);
+            color: var(--accent-green);
+        }
+        
+        .status-pill.neutral {
+            background-color: rgba(108, 117, 125, 0.15);
+            color: var(--dark-gray);
+        }
+        
+        .status-pill.breaking {
+            background-color: rgba(239, 83, 80, 0.15);
+            color: var(--accent-red);
+        }
+        
+        .view-more {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 10px;
+            color: var(--secondary);
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+        }
+        
+        .news-list {
+            padding-left: 0;
+            list-style-type: none;
+            margin: 0;
+        }
+        
+        .news-item {
+            position: relative;
+            padding: 12px 0 12px 15px;
+            border-bottom: 1px solid var(--gray);
+            line-height: 1.5;
+        }
+        
+        .news-item:last-child {
+            border-bottom: none;
+        }
+        
+        .news-item::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+            font-weight: bold;
+        }
+        
+        .india-card .news-item::before {
+            color: #FF9933;
+        }
+        
+        .global-card .news-item::before {
+            color: #3797dc;
+        }
+        
+        .news-tag {
+            display: inline-block;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 10px;
+            font-weight: 600;
+            margin-right: 5px;
+            vertical-align: middle;
+        }
+        
+        .news-tag.defense {
+            background-color: rgba(239, 83, 80, 0.15);
+            color: var(--accent-red);
+        }
+        
+        .news-tag.finance {
+            background-color: rgba(38, 166, 154, 0.15);
+            color: var(--accent-green);
+        }
+        
+        .news-tag.market {
+            background-color: rgba(26, 41, 66, 0.15);
+            color: var(--primary);
+        }
+        
+        .news-tag.policy {
+            background-color: rgba(108, 117, 125, 0.15);
+            color: var(--dark-gray);
+        }
+        
+        .news-tag.economy {
+            background-color: rgba(255, 193, 7, 0.15);
+            color: #e6a700;
+        }
+        
+        .news-date {
+            font-size: 10px;
+            color: var(--dark-gray);
+            margin-left: 5px;
+        }
+        
+        .news-headline {
+            font-weight: 500;
+        }
+        
+        .key-insight {
+            background-color: rgba(26, 41, 66, 0.03);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border-left: 3px solid var(--accent);
+        }
+        
+        .key-insight-title {
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--primary);
+        }
+        
+        .key-insight-content {
+            font-size: 13px;
+            line-height: 1.5;
+        }
+        
+        .insights-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .insight-card {
+            background-color: var(--light);
+            border-radius: 8px;
+            padding: 12px;
+            position: relative;
+            transition: transform 0.2s;
+        }
+        
+        .insight-card:hover {
+            transform: translateY(-3px);
+        }
+        
+        .insight-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            border-radius: 8px 0 0 8px;
+        }
+        
+        .insight-card.defense::before {
+            background-color: var(--accent-red);
+        }
+        
+        .insight-card.economy::before {
+            background-color: #e6a700;
+        }
+        
+        .insight-card.market::before {
+            background-color: var(--primary);
+        }
+        
+        .insight-card.policy::before {
+            background-color: var(--accent-green);
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 10px;
+            font-weight: 600;
+            margin-left: 5px;
+        }
+        
+        .badge-new {
+            background-color: rgba(38, 166, 154, 0.15);
+            color: var(--accent-green);
+        }
+        
+        .badge-breaking {
+            background-color: rgba(239, 83, 80, 0.15);
+            color: var(--accent-red);
+        }
+        
+        @media (max-width: 768px) {
+            .half-width-card {
+                grid-column: span 12;
+            }
+            
+            .insights-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div style="margin-bottom: 20px;"><a href="comprehensive_report.html" style="color: var(--secondary); font-weight: 600; text-decoration: none;">← Back to Dashboard</a></div>
+        <!-- Header Section -->
+        <div class="header">
+            <div class="header-left">
+                <h1>NEWS HIGHLIGHTS</h1>
+                <p>DAILY MARKET NEWS ROUNDUP</p>
+            </div>
+            <div class="header-right">
+                <div class="date">May 09, 2025</div>
+                <div class="time">Last updated: 14:42:11</div>
+                <div class="dashboard-actions">
+                    <button id="refresh-btn">🔄 Refresh</button>
+                    <button id="save-image-btn">🖼️ Save as Image</button>
+                </div>
+            </div>
+        </div>
+        <div id="notification"></div>
+        
+        <!-- Dashboard Grid -->
+        <div class="grid-container">
+            <!-- Market Impact Card -->
+            <div class="full-width-card card impact-card">
+                <div class="card-title">
+                    <i>🔍</i> KEY MARKET IMPACT & INSIGHTS <span class="badge badge-new">NEW</span>
+                </div>
+                <div class="card-content">
+                    <div class="key-insight">
+                        <div class="key-insight-title">MARKET SENTIMENT</div>
+                        <div class="key-insight-content">
+                            Bearish sentiment prevails across markets with analysts recommending "Sell on Rise" strategy for Nifty. Rising geopolitical tensions between India and Pakistan are driving defense stocks higher, while global markets show mixed performance with pressure on crude oil prices.
+                        </div>
+                    </div>
+                    
+                    <div class="insights-grid">
+                        <div class="insight-card defense">
+                            <span class="news-tag defense">DEFENSE</span>
+                            <span class="news-headline">Rising India-Pakistan tension boosts defense stocks like HAL and Bharat Forge, signaling sector growth.</span>
+                        </div>
+                        <div class="insight-card economy">
+                            <span class="news-tag economy">ENERGY</span>
+                            <span class="news-headline">Weakening U.S. dollar and OPEC+ production increases put downward pressure on crude oil prices.</span>
+                        </div>
+                        <div class="insight-card market">
+                            <span class="news-tag market">STRATEGY</span>
+                            <span class="news-headline">Analyst recommendations lean towards "Sell on Rise" for Nifty, indicating bearish sentiment.</span>
+                        </div>
+                        <div class="insight-card policy">
+                            <span class="news-tag policy">BONDS</span>
+                            <span class="news-headline">Treasury yields remain stable as investors closely monitor ongoing global trade negotiations.</span>
+                        </div>
+                        <div class="insight-card economy">
+                            <span class="news-tag economy">GLOBAL</span>
+                            <span class="news-headline">Economic uncertainty in China persists, despite PBOC measures, impacting global markets.</span>
+                        </div>
+                        <div class="insight-card policy">
+                            <span class="news-tag policy">TRADE</span>
+                            <span class="news-headline">UK-U.S. trade deal is welcomed by Bank of England, suggesting positive impacts on UK economy.</span>
+                        </div>
+                        <div class="insight-card market">
+                            <span class="news-tag market">SENTIMENT</span>
+                            <span class="news-headline">Falling Nifty suggests risk-off sentiment prevailing in the Indian equity market.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- India News Card -->
+            <div class="half-width-card card india-card">
+                <div class="card-title">
+                    <i>🇮🇳</i> INDIA NEWS <span class="badge badge-breaking">BREAKING</span>
+                </div>
+                <div class="card-content">
+                    <ul class="news-list">
+                        <li class="news-item">
+                            <span class="news-tag defense">DEFENSE</span>
+                            <span class="news-headline">India-Pakistan tension fuels a surge in drone and defense stocks, indicating potential for sector growth.</span>
+                            <span class="news-date">2 hours ago</span>
+                        </li>
+                        <li class="news-item">
+                            <span class="news-tag defense">STOCKS</span>
+                            <span class="news-headline">Bharat Forge gains 5% due to rising tensions, hinting at increased defense order book potential.</span>
+                            <span class="news-date">3 hours ago</span>
+                        </li>
+                        <li class="news-item">
+                            <span class="news-tag market">MARKET</span>
+                            <span class="news-headline">Nifty experiences a significant intraday fall, wiping out Rs 3.5 lakh crore of market capitalization.</span>
+                            <span class="news-date">4 hours ago</span>
+                        </li>
+                        <li class="news-item">
+                            <span class="news-tag market">STRATEGY</span>
+                            <span class="news-headline">Analysts predict further Nifty downside, advising "Sell on Rise" strategy for the coming week.</span>
+                            <span class="news-date">5 hours ago</span>
+                        </li>
+                        <li class="news-item">
+                            <span class="news-tag market">STOCKS</span>
+                            <span class="news-headline">Titan shares buck market trend, rallying 5% despite overall market decline.</span>
+                            <span class="news-date">6 hours ago</span>
+                        </li>
+                        <li class="news-item">
+                            <span class="news-tag market">REGIONAL</span>
+                            <span class="news-headline">Karachi Stock Exchange recovers slightly after a 10% drop, indicating volatile regional sentiment.</span>
+                            <span class="news-date">7 hours ago</span>
+                        </li>
+                        <li class="news-item">
+                            <span class="news-tag market">SECTOR</span>
+                            <span class="news-headline">Diagnostic companies remain in focus amidst market volatility for potential investment.</span>
+                            <span class="news-date">8 hours ago</span>
+                        </li>
+                    </ul>
+                    <div class="view-more">View all India news →</div>
+                </div>
+            </div>
+            
+            <!-- Global News Card -->
+            <div class="half-width-card card global-card">
+                <div class="card-title">
+                    <i>🌎</i> GLOBAL NEWS
+                </div>
+                <div class="card-content">
+                    <ul class="news-list">
+                        <li class="news-item">
+                            <span class="news-tag economy">ENERGY</span>
+                            <span class="news-headline">U.S. crude oil closes at its lowest since 2021 after OPEC+ agreement for increased production.</span>
+                            <span class="news-date">1 hour ago</span>
+                        </li>
+                        <li class="news-item">
+                            <span class="news-tag policy">FED</span>
+                            <span class="news-headline">Fed faces a dilemma balancing inflation control and maintaining full employment.</span>
+                            <span class="news-date">3 hours ago</span>
+                        </li>
+                        <li class="news-item">
+                            <span class="news-tag economy">METALS</span>
+                            <span class="news-headline">Aluminum sector remains in a bind, failing to relocate to the U.S. despite tariffs.</span>
+                            <span class="news-date">4 hours ago</span>
+                        </li>
+                        <li class="news-item">
+                            <span class="news-tag economy">FOREX</span>
+                            <span class="news-headline">Morgan Stanley forecasts a long-term weakening trend for the U.S. dollar.</span>
+                            <span class="news-date">5 hours ago</span>
+                        </li>
+                        <li class="news-item">
+                            <span class="news-tag economy">CHINA</span>
+                            <span class="news-headline">PBOC actions are insufficient to stimulate China's economy out of its current holding pattern.</span>
+                            <span class="news-date">6 hours ago</span>
+                        </li>
+                        <li class="news-item">
+                            <span class="news-tag market">EUROPE</span>
+                            <span class="news-headline">Europe stocks show mixed performance, with FTSE 100 falling amidst trade deal news.</span>
+                            <span class="news-date">7 hours ago</span>
+                        </li>
+                        <li class="news-item">
+                            <span class="news-tag economy">ASIA</span>
+                            <span class="news-headline">Taiwan dollar softens after historic surge, as authorities deny currency manipulation talks.</span>
+                            <span class="news-date">9 hours ago</span>
+                        </li>
+                    </ul>
+                    <div class="view-more">View all global news →</div>
+                </div>
+            </div>
+            
+            <!-- Top Stories Summary Card -->
+            <div class="full-width-card card">
+                <div class="card-title">
+                    <i>🔥</i> TOP STORIES & MARKET MOVERS
+                </div>
+                <div class="card-content">
+                    <div style="display: flex; flex-wrap: wrap; justify-content: space-between;">
+                        <div style="width: 48%; margin-bottom: 15px;">
+                            <div style="font-weight: 600; margin-bottom: 10px; color: var(--accent-red);">Defense & Geopolitical Tensions</div>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Company</th>
+                                        <th>Price</th>
+                                        <th>Change</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>HAL</td>
+                                        <td>₹3,255.40</td>
+                                        <td class="positive arrow-up">8.75%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Bharat Forge</td>
+                                        <td>₹1,120.25</td>
+                                        <td class="positive arrow-up">5.10%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>ideaForge Tech</td>
+                                        <td>₹460.50</td>
+                                        <td class="positive arrow-up">17.20%</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div style="width: 48%; margin-bottom: 15px;">
+                            <div style="font-weight: 600; margin-bottom: 10px; color: var(--accent-green);">Outperformers in Bear Market</div>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Company</th>
+                                        <th>Price</th>
+                                        <th>Change</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Titan Company</td>
+                                        <td>₹3,425.80</td>
+                                        <td class="positive arrow-up">5.00%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Dr. Lal PathLabs</td>
+                                        <td>₹2,840.30</td>
+                                        <td class="positive arrow-up">3.25%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Infosys</td>
+                                        <td>₹1,745.60</td>
+                                        <td class="positive arrow-up">1.30%</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <div style="background: linear-gradient(135deg, rgba(26, 41, 66, 0.05) 0%, rgba(26, 41, 66, 0.1) 100%); padding: 15px; border-radius: 8px;">
+                        <div style="font-weight: 600; margin-bottom: 10px;">MARKET SUMMARY</div>
+                        <div style="display: flex; flex-wrap: wrap; justify-content: space-between;">
+                            <div style="width: 48%;">
+                                <div style="margin-bottom: 10px;">
+                                    <span style="font-weight: 600;">Market Stance:</span>
+                                    <span class="status-pill bearish" style="margin-left: 10px;">SELL ON RISE</span>
+                                </div>
+                                <ul style="padding-left: 18px; margin: 0; font-size: 13px;">
+                                    <li>Defense and drone manufacturers outperforming broader market</li>
+                                    <li>High-quality IT and healthcare stocks showing relative strength</li>
+                                    <li>Crude oil weakness may benefit import-dependent sectors</li>
+                                </ul>
+                            </div>
+                            <div style="width: 48%;">
+                                <div style="margin-bottom: 10px;">
+                                    <span style="font-weight: 600;">What to Watch:</span>
+                                </div>
+                                <ul style="padding-left: 18px; margin: 0; font-size: 13px;">
+                                    <li>Escalation of India-Pakistan tensions could intensify market volatility</li>
+                                    <li>OPEC+ production decisions impact on energy prices</li>
+                                    <li>Potential central bank policy shifts in response to economic data</li>
+                                    <li>China's economic recovery efforts and global implications</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="view-more">View complete market analysis →</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+    <script>
+    // --- Utility functions ---
+    function notify(msg, color) {
+        const n = document.getElementById('notification');
+        n.innerText = msg;
+        n.style.display = 'block';
+        n.style.color = color || 'var(--accent-green)';
+        setTimeout(() => { n.style.display = 'none'; }, 3500);
+    }
+
+    // --- Render news highlights data from JSON ---
+    function renderNewsHighlights(data) {
+        // This is a placeholder: you may want to update the news lists, insights, etc.
+        // For now, just update the first India news item if present
+        if (data.india_news && Array.isArray(data.india_news)) {
+            const indiaList = document.querySelector('.half-width-card.india-card .news-list');
+            if (indiaList) {
+                indiaList.innerHTML = data.india_news.map(item => `<li class="news-item"><span class="news-headline">${item.replace(/^[-•]\s*/, '')}</span></li>`).join('');
+            }
+        }
+        if (data.global_news && Array.isArray(data.global_news)) {
+            const globalList = document.querySelector('.half-width-card.global-card .news-list');
+            if (globalList) {
+                globalList.innerHTML = data.global_news.map(item => `<li class="news-item"><span class="news-headline">${item.replace(/^[-•]\s*/, '')}</span></li>`).join('');
+            }
+        }
+    }
+
+    // --- Fetch and render logic ---
+    function fetchAndRender(triggerSource, showLoading) {
+        if (showLoading) notify(triggerSource === 'manual' ? 'Refresh is happening...' : 'Loading new data...');
+        fetch('http://127.0.0.1:8009/api/news-highlights')
+            .then(res => res.json())
+            .then(data => {
+                renderNewsHighlights(data);
+                sessionStorage.setItem('news_highlight_data', JSON.stringify(data));
+                notify(triggerSource === 'auto' ? 'Auto-refresh complete' : 'Data refreshed');
+                console.log('Data refreshed by', triggerSource);
+            })
+            .catch(() => {
+                notify('Failed to refresh data', 'var(--accent-red)');
+            });
+    }
+
+    // --- Auto-refresh logic ---
+    function startAutoRefresh() {
+        setInterval(() => {
+            fetchAndRender('auto', false); // background, no loading overlay
+        }, 15 * 60 * 1000);
+    }
+
+    window.addEventListener('DOMContentLoaded', function() {
+        // 1. Try to load from sessionStorage
+        const cached = sessionStorage.getItem('news_highlight_data');
+        if (cached) {
+            try {
+                renderNewsHighlights(JSON.parse(cached));
+            } catch {}
+        }
+        // 2. Always fetch new data in background
+        fetchAndRender('initial', true);
+        // 3. Manual refresh
+        document.getElementById('refresh-btn').onclick = function() {
+            fetchAndRender('manual', true);
+        };
+        // 4. Save as Image
+        document.getElementById('save-image-btn').onclick = function() {
+            html2canvas(document.body).then(canvas => {
+                const link = document.createElement('a');
+                link.download = 'news_highlights.png';
+                link.href = canvas.toDataURL();
+                link.click();
+                notify('Image saved!');
+                console.log('Save as image triggered by user');
+            });
+        };
+        // 5. Start auto-refresh every 15 min (background)
+        startAutoRefresh();
+    });
+    </script>
+</body>
+</html>

@@ -1,0 +1,96 @@
+{
+  "sector_movement": {
+    "data": [
+      {
+        "sector_name": "Textiles Apparels & Accessories",
+        "num_companies": 359,
+        "advances": 120,
+        "declines": 239,
+        "change_percentage": 2.39,
+        "source": "Trendlyne"
+      },
+      {
+        "sector_name": "General Industrials",
+        "num_companies": 385,
+        "advances": 146,
+        "declines": 239,
+        "change_percentage": 1.07,
+        "source": "Trendlyne"
+      },
+      {
+        "sector_name": "Agriculture and Chemicals",
+        "num_companies": 219,
+        "advances": 80,
+        "declines": 139,
+        "change_percentage": 0.21,
+        "source": "Trendlyne"
+      },
+      {
+        "sector_name": "Media",
+        "num_companies": 87,
+        "advances": 31,
+        "declines": 56,
+        "change_percentage": 0.02,
+        "source": "Trendlyne"
+      },
+      {
+        "sector_name": "Infrastructure",
+        "num_companies": 218,
+        "advances": 63,
+        "declines": 155,
+        "change_percentage": -0.04,
+        "source": "Trendlyne"
+      },
+      {
+        "sector_name": "Diversified Consumer Services",
+        "num_companies": 134,
+        "advances": 36,
+        "declines": 98,
+        "change_percentage": -0.2,
+        "source": "Trendlyne"
+      },
+      {
+        "sector_name": "Metals and Mining",
+        "num_companies": 195,
+        "advances": 55,
+        "declines": 140,
+        "change_percentage": -0.21,
+        "source": "Trendlyne"
+      },
+      {
+        "sector_name": "Consumer Durables",
+        "num_companies": 149,
+        "advances": 51,
+        "declines": 98,
+        "change_percentage": -0.36,
+        "source": "Trendlyne"
+      },
+      {
+        "sector_name": "Automobiles",
+        "num_companies": 181,
+        "advances": 51,
+        "declines": 130,
+        "change_percentage": -0.39,
+        "source": "Trendlyne"
+      },
+      {
+        "sector_name": "Others",
+        "num_companies": 27,
+        "advances": 5,
+        "declines": 22,
+        "change_percentage": -0.43,
+        "source": "Trendlyne"
+      },
+      {
+        "sector_name": "FMCG",
+        "num_companies": 108,
+        "advances": 32,
+        "declines": 76,
+        "change_percentage": -0.52,
+        "source": "Trendlyne"
+      }
+    ],
+    "insight": "- Textiles, Apparels & Accessories sector shows relative strength, but a high number of declines suggest caution despite the positive change.\n- General Industrials also experienced advances but had an equal number of declines compared to Textiles, signaling potential headwinds in industrial activity.\n- Agriculture and Chemicals saw a moderate gain with more declines, indicating possible cost pressures or demand shifts within the sector.\n- Infrastructure's slight decline with significantly more declines points to potential concerns about government spending or project delays.\n- Textiles and Apparel sector presents a possible short-term opportunity but requires careful monitoring due to the number of declines.\n- Sector rotation may favor more defensive sectors if the Infrastructure weakness persists, suggesting a risk-off sentiment in the market.\n- Investors should monitor economic data related to consumer spending, industrial production, and government projects to assess sector performance."
+  },
+  "timestamp": "2025-05-10T23:30:06.372880"
+}

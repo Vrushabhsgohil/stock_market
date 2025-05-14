@@ -1,0 +1,430 @@
+{
+  "market_analysis": "- Market sentiment is bearish due to India-Pakistan tensions, with indices falling and a \"Sell on Rise\" strategy advised.\n- Sector performance is unclear due to lack of sector-specific data, highlighting a need for further investigation.\n- Institutional activity impact is unknown due to missing data, limiting a comprehensive market view.\n- Geopolitical tensions between India and Pakistan are negatively impacting market performance and currency value.\n- A potential investment theme is Niva Bupa, with Motilal Oswal projecting a 17% upside within a year.\n- Market volatility may increase due to SEBI panel's move on F&O index exposure limits and ongoing geopolitical risk.\n- Market breadth is negative, indicated by significant losses in some individual stocks contrasting with the gains.",
+  "market_overview": {
+    "indices": [
+      {
+        "name": "NIFTY 50",
+        "ltp": "24008.0",
+        "day_change_percent": "-1.1%",
+        "day_change": "-265.8",
+        "num_companies": "N/A"
+      },
+      {
+        "name": "SENSEX",
+        "ltp": "79454.47",
+        "day_change_percent": "-1.1%",
+        "day_change": "-880.34",
+        "num_companies": "N/A"
+      },
+      {
+        "name": "CRSLDX",
+        "ltp": "21675.55",
+        "day_change_percent": "-0.77%",
+        "day_change": "-167.5",
+        "num_companies": "N/A"
+      },
+      {
+        "name": "BANK NIFTY",
+        "ltp": "53595.25",
+        "day_change_percent": "-1.42%",
+        "day_change": "-770.4",
+        "num_companies": "N/A"
+      },
+      {
+        "name": "NIFTY IT",
+        "ltp": "35880.1",
+        "day_change_percent": "-0.34%",
+        "day_change": "-122.35",
+        "num_companies": "N/A"
+      },
+      {
+        "name": "NIFTY Midcap 50",
+        "ltp": "15097.55",
+        "day_change_percent": "-0.01%",
+        "day_change": "-1.3",
+        "num_companies": "N/A"
+      }
+    ],
+    "insights": "Indian market indices witnessed a broad-based decline today, reflecting a negative market sentiment. The NIFTY 50 and SENSEX both experienced substantial losses of approximately 1.1%, indicating widespread selling pressure. Banking sector underperformed significantly, with BANK NIFTY shedding 1.42%, while NIFTY IT showed relative resilience with a smaller decline of 0.34%. Profit booking after recent gains, coupled with global economic uncertainties, likely contributed to the downward pressure. NIFTY Midcap 50 remained relatively stable with minimal change (-0.01%), showcasing some strength in the mid-cap segment. Given the prevailing negative sentiment and sector-specific weaknesses, a cautious outlook is warranted for the immediate short term."
+  },
+  "sector_movement": {
+    "data": [
+      {
+        "sector_name": "Textiles Apparels & Accessories",
+        "num_companies": 359,
+        "advances": 120,
+        "declines": 239,
+        "change_percentage": 2.39,
+        "source": "Trendlyne"
+      },
+      {
+        "sector_name": "General Industrials",
+        "num_companies": 385,
+        "advances": 146,
+        "declines": 239,
+        "change_percentage": 1.07,
+        "source": "Trendlyne"
+      },
+      {
+        "sector_name": "Agriculture and Chemicals",
+        "num_companies": 219,
+        "advances": 80,
+        "declines": 139,
+        "change_percentage": 0.21,
+        "source": "Trendlyne"
+      },
+      {
+        "sector_name": "Media",
+        "num_companies": 87,
+        "advances": 31,
+        "declines": 56,
+        "change_percentage": 0.02,
+        "source": "Trendlyne"
+      },
+      {
+        "sector_name": "Infrastructure",
+        "num_companies": 218,
+        "advances": 63,
+        "declines": 155,
+        "change_percentage": -0.04,
+        "source": "Trendlyne"
+      },
+      {
+        "sector_name": "Diversified Consumer Services",
+        "num_companies": 134,
+        "advances": 36,
+        "declines": 98,
+        "change_percentage": -0.2,
+        "source": "Trendlyne"
+      },
+      {
+        "sector_name": "Metals and Mining",
+        "num_companies": 195,
+        "advances": 55,
+        "declines": 140,
+        "change_percentage": -0.21,
+        "source": "Trendlyne"
+      },
+      {
+        "sector_name": "Consumer Durables",
+        "num_companies": 149,
+        "advances": 51,
+        "declines": 98,
+        "change_percentage": -0.36,
+        "source": "Trendlyne"
+      },
+      {
+        "sector_name": "Automobiles",
+        "num_companies": 181,
+        "advances": 51,
+        "declines": 130,
+        "change_percentage": -0.39,
+        "source": "Trendlyne"
+      },
+      {
+        "sector_name": "Others",
+        "num_companies": 27,
+        "advances": 5,
+        "declines": 22,
+        "change_percentage": -0.43,
+        "source": "Trendlyne"
+      },
+      {
+        "sector_name": "FMCG",
+        "num_companies": 108,
+        "advances": 32,
+        "declines": 76,
+        "change_percentage": -0.52,
+        "source": "Trendlyne"
+      }
+    ],
+    "insights": "- Textiles, Apparels & Accessories show relative strength, potentially indicating increased consumer spending or export demand.\n- General Industrials are moderately positive, but with more declines than advances suggest underlying challenges in specific companies.\n- Infrastructure's slight decline hints at concerns regarding government spending or project delays.\n- Media's near-flat performance reflects shifting consumer habits and intense competition.\n- Sector rotation suggests a move towards cyclical sectors like Textiles and Industrials, potentially driven by growth optimism.\n- Investors should monitor the Textiles sector for continued momentum and cautiously approach Industrials, considering individual company performance.\n- Watch for policy announcements or economic data affecting Infrastructure, as this sector's performance can signal future economic activity."
+  },
+  "top_performers": {
+    "top_gainers": [
+      {
+        "company_name": "ACS Technologies Ltd.",
+        "current_price": 16.3,
+        "price_change": 12.8,
+        "percentage_change": 365.7
+      },
+      {
+        "company_name": "Parmeshwari Silk Mil..",
+        "current_price": 21.6,
+        "price_change": 3.6,
+        "percentage_change": 20
+      },
+      {
+        "company_name": "ideaForge Technology..",
+        "current_price": 463.5,
+        "price_change": 77.25,
+        "percentage_change": 20
+      },
+      {
+        "company_name": "Skyline Millars Ltd.",
+        "current_price": 19.9,
+        "price_change": 3.31,
+        "percentage_change": 20
+      },
+      {
+        "company_name": "Premier Explosives L..",
+        "current_price": 479.5,
+        "price_change": 77.9,
+        "percentage_change": 19.4
+      },
+      {
+        "company_name": "Nakoda Group of Indu..",
+        "current_price": 18.5,
+        "price_change": 3,
+        "percentage_change": 19.3
+      },
+      {
+        "company_name": "TGIF Agribusiness Ltd.",
+        "current_price": 119,
+        "price_change": 19,
+        "percentage_change": 19
+      },
+      {
+        "company_name": "Diggi Multitrade Ltd.",
+        "current_price": 19.9,
+        "price_change": 2.9,
+        "percentage_change": 17.1
+      },
+      {
+        "company_name": "Diensten Tech Ltd.",
+        "current_price": 149,
+        "price_change": 21,
+        "percentage_change": 16.4
+      },
+      {
+        "company_name": "Novateor Research La..",
+        "current_price": 57.5,
+        "price_change": 7.5,
+        "percentage_change": 15
+      }
+    ],
+    "top_losers": [
+      {
+        "company_name": "Chembond Chemicals L..",
+        "current_price": 341.8,
+        "price_change": -205.8,
+        "percentage_change": -37.6
+      },
+      {
+        "company_name": "CP Capital Ltd.",
+        "current_price": 246.1,
+        "price_change": -147.7,
+        "percentage_change": -37.5
+      },
+      {
+        "company_name": "Synoptics Technologi..",
+        "current_price": 52.4,
+        "price_change": -12.85,
+        "percentage_change": -19.7
+      },
+      {
+        "company_name": "Amiable Logistic (In..",
+        "current_price": 68.6,
+        "price_change": -14.3,
+        "percentage_change": -17.3
+      },
+      {
+        "company_name": "Shanti Spintex Ltd.",
+        "current_price": 56.3,
+        "price_change": -9.67,
+        "percentage_change": -14.7
+      },
+      {
+        "company_name": "Bonlon Industries Ltd.",
+        "current_price": 36.1,
+        "price_change": -6.19,
+        "percentage_change": -14.6
+      },
+      {
+        "company_name": "Mega Nirman & Indust..",
+        "current_price": 17.2,
+        "price_change": -2.85,
+        "percentage_change": -14.3
+      },
+      {
+        "company_name": "Patron Exim Ltd.",
+        "current_price": 5.7,
+        "price_change": -0.77,
+        "percentage_change": -11.9
+      },
+      {
+        "company_name": "Muthoot Microfin Ltd.",
+        "current_price": 129.3,
+        "price_change": -17,
+        "percentage_change": -11.6
+      },
+      {
+        "company_name": "AI Champdany Industr..",
+        "current_price": 37.4,
+        "price_change": -4.69,
+        "percentage_change": -11.2
+      }
+    ],
+    "insights": "- ACS Technologies Ltd. experienced an extraordinary surge, suggesting a potential short squeeze or significant positive news specific to the company.\n- The prevalence of 20% gains among several companies indicates strong upward momentum in specific small-cap stocks, possibly driven by speculative trading.\n- The substantial losses in Chembond Chemicals Ltd. and CP Capital Ltd. may signal sector-specific headwinds or company-specific challenges warranting further investigation.\n- The decline in Muthoot Microfin Ltd. could reflect concerns about the microfinance sector's performance or regulatory changes impacting the industry.\n- Investors should exercise caution with highly volatile stocks exhibiting extreme gains or losses, conducting thorough due diligence before making investment decisions."
+  },
+  "news_highlights": {
+    "news_impact": [
+      "- The U.S. dollar's weakening trend and potential Fed policy errors raise concerns of inflation and investment strategy adjustments.",
+      "- Rising geopolitical tensions, specifically India-Pakistan, negatively impact investor sentiment, causing market declines.",
+      "- Declining crude oil prices and potential OPEC+ production surges could affect energy sector investments.",
+      "- Corporate bond investments require careful consideration due to potential risks highlighted by Wells Fargo.",
+      "- China's economic challenges may affect global growth projections and international trade.",
+      "- Technical analysis suggests a potential further downside for Nifty, advising caution in trading.",
+      "- The aluminum sector's stagnant growth in the U.S. highlights tariff ineffectiveness."
+    ],
+    "india_news": [
+      "- India-Pakistan conflict drove benchmark indices down by 1% and caused a sharp weekly fall in the Rupee.",
+      "- Sensex closed below 80,000 amidst India-Pakistan tensions, wiping out Rs 4 lakh crore in market capitalization.",
+      "- SEBI panel's move to ease F&O index exposure limits could potentially increase market volatility.",
+      "- Technical analysis points to a potential Nifty target of 22,260 if it falls below 22,940.",
+      "- Brokerage houses are advising a \"Sell on Rise\" strategy due to anticipated market downside.",
+      "- The manufacturing boom is anticipated sooner or later, presenting future sector opportunities.",
+      "- Motilal Oswal anticipates a further 17% upside in Niva Bupa shares within a year."
+    ],
+    "global_news": [
+      "- Fed Chair Powell faces potential criticism amid economic uncertainty, influencing monetary policy outlook.",
+      "- OPEC+'s agreement to surge crude oil production in June led to U.S. crude hitting its lowest level since 2021.",
+      "- Trump's visit to the Middle East focuses on oil, trade, and nuclear ambitions, affecting geopolitical landscape.",
+      "- The long-term weakening of the U.S. dollar could impact global trade and currency valuations.",
+      "- PBOC measures are deemed insufficient to overcome China's economic stagnation, affecting investor confidence.",
+      "- European stocks closed higher, except for the FTSE 100, amid U.S. trade deal and rate cut developments.",
+      "- The debate between silver and gold as investment choices reflects broader economic uncertainty."
+    ],
+    "timestamp": "2025-05-10T23:36:58.157498",
+    "status": "success"
+  },
+  "technical_snapshot": {
+    "date": "May 09, 2025",
+    "snapshot": {
+      "Nifty 50": {
+        "close": 24008,
+        "support": 22399.15,
+        "rsi": 53.88,
+        "macd": {
+          "line": 305.42,
+          "signal": 327.59
+        }
+      },
+      "Sensex": {
+        "close": 79454.47,
+        "support": 73847.15,
+        "rsi": 55.73,
+        "macd": {
+          "line": 1097.33,
+          "signal": 1125.9
+        }
+      },
+      "Nifty Bank": {
+        "close": 53595.25,
+        "support": 50240.15,
+        "rsi": 51.59,
+        "macd": {
+          "line": 875.89,
+          "signal": 1130.42
+        }
+      },
+      "Nifty IT": {
+        "close": 35880.1,
+        "support": 32517.35,
+        "rsi": 53.05,
+        "macd": {
+          "line": 5.93,
+          "signal": -264.65
+        }
+      },
+      "Nifty FMCG": {
+        "close": 55633,
+        "support": 54300.25,
+        "rsi": 50,
+        "macd": {
+          "line": 587.32,
+          "signal": 781.79
+        }
+      }
+    },
+    "insights": [
+      "Nifty 50 shows moderate bullish momentum; watch 22399.15 support.",
+      "Sensex indicates continued strength; monitor 73847.15 as key support.",
+      "Nifty Bank's MACD crossover suggests potential bearish turn; 50240.15 is support.",
+      "Nifty IT's MACD divergence signals possible bullish reversal despite low MACD line.",
+      "Nifty FMCG's RSI at 50 implies a neutral trend; watch for breakout.",
+      "Across indices, RSI values suggest no immediate overbought/oversold conditions.",
+      "MACD signal lines are above MACD lines for Nifty 50 and Sensex, indicating bullishness."
+    ]
+  },
+  "institutional_activity": {
+    "data": {
+      "fii": {
+        "buy_value": 91187.28,
+        "sell_value": 83330.05,
+        "net_value": 7857.23
+      },
+      "dii": {
+        "buy_value": 80186,
+        "sell_value": 66444.55,
+        "net_value": 13741.45
+      },
+      "source": "MoneyControl"
+    },
+    "insights": "- Both FIIs and DIIs were net buyers, indicating overall positive institutional sentiment towards Indian equities.\n- Strong domestic economic data or positive corporate earnings could be driving these significant institutional inflows.\n- This net buying pressure may support upward market momentum in the near term.\n- Continued positive economic indicators are likely needed to sustain this level of institutional buying.\n- Retail investors should consider aligning with the prevailing institutional trend, but diversify to manage risk.\n- Recent data contrasts historical periods of higher FII outflows, suggesting a potential shift in global investor perception.\n- Investors should closely monitor upcoming macroeconomic data releases and global risk factors for potential shifts in institutional activity."
+  },
+  "financial_indicators": {
+    "Dow Jones": {
+      "value": "41249.38",
+      "percent_change": "-0.29%",
+      "remarks": "Down"
+    },
+    "Nasdaq": {
+      "value": "17928.92",
+      "percent_change": "0.00%",
+      "remarks": "Up"
+    },
+    "S&P 500": {
+      "value": "5659.91",
+      "percent_change": "-0.07%",
+      "remarks": "Down"
+    },
+    "Nikkei": {
+      "value": "37503.33",
+      "percent_change": "1.56%",
+      "remarks": "Up"
+    },
+    "Crude Oil (WTI)": {
+      "value": "$58.5",
+      "percent_change": "-1.96%",
+      "remarks": "Down"
+    },
+    "Crude Oil (Brent)": {
+      "value": "$61.57",
+      "percent_change": "-1.28%",
+      "remarks": "Down"
+    },
+    "Gold (MCX)": {
+      "value": "N/A",
+      "percent_change": "N/A",
+      "remarks": "API Error: Unknown error"
+    },
+    "USD/INR": {
+      "value": "₹85.36",
+      "percent_change": "-0.84%",
+      "remarks": "INR strengthened"
+    },
+    "10Y Yield": {
+      "value": "4.38%",
+      "percent_change": "0.05%",
+      "remarks": "Up"
+    },
+    "_insights": {
+      "value": "- US equity markets show mixed performance with the Dow and S&P 500 declining slightly while the Nasdaq is flat, suggesting sector-specific dynamics at play.\n- The Nikkei's positive performance contrasts with the US indices, indicating regional economic strength or different market sentiment.\n- Declining crude oil prices correlate with a strengthening USD/INR, potentially easing inflationary pressures in India.\n- Rising 10-year Treasury yields may pressure equity valuations, particularly for growth stocks sensitive to interest rate changes.\n- Investors should monitor upcoming economic data releases and central bank commentary to gauge the sustainability of current trends and potential policy shifts.\n- Continued divergence between US market segments warrants a diversified investment approach that is balanced among sectors.",
+      "percent_change": "",
+      "remarks": "AI-generated insights"
+    }
+  },
+  "market_summary": "- Market sentiment is bearish; consider a \"Sell on Rise\" strategy.\n- Geopolitical risks warrant caution and careful portfolio management.\n- Monitor volatility, potentially increasing due to SEBI's F&O changes.\n- Lack of sector data requires further, in-depth sector analysis.\n- Institutional activity remains a key unknown; investigate this influence.\n- India-Pakistan tensions are negatively impacting currency values.\n- Market breadth suggests selective stock picking is now crucial.\n- Niva Bupa presents a potential opportunity with a 17% upside target.",
+  "market_predictions": "- The Nifty 50 will likely open lower due to prevailing bearish sentiment.\n- A \"Sell on Rise\" strategy may intensify if the Nifty 50 reaches resistance at 22,500.\n- Volatility may increase as traders react to potential changes in F&O index exposure limits.\n- INR could weaken further against the USD due to ongoing geopolitical tensions.\n- Select individual stocks may show gains despite the broader market weakness.\n- The financial sector is expected to remain under pressure.\n- Support for the Nifty 50 lies around 22,200, and a breach could trigger further selling.\n- Niva Bupa might experience an uptick, potentially moving closer to the 17% upside target."
+}

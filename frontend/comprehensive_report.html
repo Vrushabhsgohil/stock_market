@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Market Dashboard</title>
+    <style>
+        :root {
+            --primary: #1a2942;
+            --secondary: #2e4a6a;
+            --accent: #f45b5b;
+            --accent-green: #26a69a;
+            --accent-red: #ef5350;
+            --light: #f8f9fa;
+            --gray: #e9ecef;
+            --dark-gray: #6c757d;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f2f5;
+            color: var(--primary);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px 10px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header-left h1 {
+            margin: 0;
+            font-size: 28px;
+            font-weight: 700;
+        }
+        
+        .header-left p {
+            margin: 5px 0 0;
+            font-size: 14px;
+            opacity: 0.8;
+        }
+        
+        .header-right {
+            text-align: right;
+        }
+        
+        .date {
+            font-size: 16px;
+            font-weight: 500;
+        }
+        
+        .time {
+            font-size: 14px;
+            opacity: 0.8;
+        }
+        
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            grid-gap: 20px;
+            padding: 20px;
+            background-color: white;
+            border-radius: 0 0 10px 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .card {
+            background: white;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--accent);
+        }
+        
+        .card.positive::after {
+            background: var(--accent-green);
+        }
+        
+        .card.negative::after {
+            background: var(--accent-red);
+        }
+        
+        .card-title {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            font-weight: 600;
+            font-size: 16px;
+            color: var(--primary);
+        }
+        
+        .card-title i {
+            margin-right: 8px;
+            color: var(--accent);
+        }
+        
+        .card-content {
+            font-size: 14px;
+        }
+        
+        .index-card {
+            grid-column: span 4;
+        }
+        
+        .sentiment-card {
+            grid-column: span 4;
+        }
+        
+        .news-card {
+            grid-column: span 4;
+        }
+        
+        .movers-card {
+            grid-column: span 6;
+        }
+        
+        .sector-card {
+            grid-column: span 6;
+        }
+        
+        .chart-card {
+            grid-column: span 8;
+        }
+        
+        .technical-card {
+            grid-column: span 4;
+        }
+        
+        .full-width-card {
+            grid-column: span 12;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        th {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid var(--gray);
+            font-weight: 600;
+            font-size: 12px;
+            color: var(--dark-gray);
+        }
+        
+        td {
+            padding: 10px;
+            border-bottom: 1px solid var(--gray);
+            font-size: 13px;
+        }
+        
+        .positive {
+            color: var(--accent-green);
+        }
+        
+        .negative {
+            color: var(--accent-red);
+        }
+        
+        .status-pill {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        
+        .status-pill.bearish {
+            background-color: rgba(239, 83, 80, 0.15);
+            color: var(--accent-red);
+        }
+        
+        .status-pill.bullish {
+            background-color: rgba(38, 166, 154, 0.15);
+            color: var(--accent-green);
+        }
+        
+        .status-pill.neutral {
+            background-color: rgba(108, 117, 125, 0.15);
+            color: var(--dark-gray);
+        }
+        
+        .arrow-up::before {
+            content: "▲ ";
+        }
+        
+        .arrow-down::before {
+            content: "▼ ";
+        }
+        
+        .view-more {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 10px;
+            color: var(--secondary);
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+        }
+        
+        .chart-container {
+            height: 180px;
+            margin-top: 10px;
+            position: relative;
+        }
+        
+        .chart-placeholder {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, rgba(26, 41, 66, 0.03) 0%, rgba(26, 41, 66, 0.08) 100%);
+            border-radius: 4px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .highlight-section {
+            margin-top: 20px;
+            padding: 15px;
+            background: linear-gradient(135deg, rgba(26, 41, 66, 0.03) 0%, rgba(26, 41, 66, 0.08) 100%);
+            border-radius: 8px;
+        }
+        
+        .highlight-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+        
+        .highlight-items {
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .highlight-item {
+            text-align: center;
+            padding: 10px;
+            background-color: white;
+            border-radius: 8px;
+            flex: 1;
+            margin: 0 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+        
+        .highlight-value {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        
+        .highlight-label {
+            font-size: 11px;
+            color: var(--dark-gray);
+        }
+        
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 10px;
+            font-weight: 600;
+            margin-left: 5px;
+        }
+        
+        .badge-new {
+            background-color: rgba(38, 166, 154, 0.15);
+            color: var(--accent-green);
+        }
+        
+        .summary-pill {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            margin-right: 5px;
+            margin-bottom: 5px;
+            background-color: rgba(26, 41, 66, 0.1);
+        }
+        
+        .spinner {
+            border: 6px solid #eee;
+            border-top: 6px solid #3498db;
+            border-radius: 50%;
+            width: 48px;
+            height: 48px;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+    </style>
+</head>
+<body>
+    <div id="loading-overlay" style="position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:9999;background:rgba(255,255,255,0.95);display:flex;align-items:center;justify-content:center;">
+        <div>
+            <div class="spinner"></div>
+            <p>Loading dashboard data...</p>
+        </div>
+    </div>
+    <div class="container">
+        <!-- Header Section -->
+        <div class="header">
+            <div class="header-left">
+                <h1>MARKET DASHBOARD</h1>
+                <p>DAILY MARKET REPORT</p>
+            </div>
+            <div class="header-right">
+                <div class="date" id="dashboard-date">--</div>
+                <div class="time" id="dashboard-time">--</div>
+                <div class="dashboard-actions">
+                    <button id="refresh-btn">🔄 Refresh</button>
+                    <button id="download-pdf-btn">⬇️ Download PDF</button>
+                    <button id="save-image-btn">🖼️ Save as Image</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Top Insights Grid (dynamic) -->
+        <div id="top-insights-grid"></div>
+        
+        <!-- Dashboard Grid -->
+        <div class="grid-container">
+            <!-- Major Indices Card -->
+            <a href="market_overview.html" class="index-card card negative">
+                <div class="card-title">
+                    <i>📊</i> MAJOR INDICES
+                </div>
+                <div class="card-content">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Index</th>
+                                <th>LTP</th>
+                                <th>Chg %</th>
+                                <th>Chg</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>NIFTY 50</td>
+                                <td>₹23,998.90</td>
+                                <td class="negative arrow-down">1.70%</td>
+                                <td class="negative">-₹415.50</td>
+                            </tr>
+                            <tr>
+                                <td>SENSEX</td>
+                                <td>₹79,381.14</td>
+                                <td class="negative arrow-down">1.69%</td>
+                                <td class="negative">-₹1,365.64</td>
+                            </tr>
+                            <tr>
+                                <td>BANK NIFTY</td>
+                                <td>₹53,585.15</td>
+                                <td class="negative arrow-down">1.88%</td>
+                                <td class="negative">-₹1,025.75</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="view-more">View detailed analysis →</div>
+                </div>
+            </a>
+            
+            <!-- Key Headlines Card -->
+            <a href="news_highlight.html" class="news-card card">
+                <div class="card-title">
+                    <i>📰</i> KEY HEADLINES <span class="badge badge-new">4 NEW</span>
+                </div>
+                <div class="card-content">
+                    <div style="margin-bottom: 10px;">
+                        <div style="font-weight: 600; margin-bottom: 5px;">India News</div>
+                        <ul style="padding-left: 18px; margin: 0; font-size: 12px;">
+                            <li>Drone stocks surge 17% amid India-Pakistan tensions</li>
+                            <li>Bharat Forge rises 5% on potential defense orders</li>
+                            <li>Nifty declines 1%, wiping out ₹3.5 lakh crore</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <div style="font-weight: 600; margin-bottom: 5px;">Global News</div>
+                        <ul style="padding-left: 18px; margin: 0; font-size: 12px;">
+                            <li>U.S. crude oil at lowest level since 2021</li>
+                            <li>UK-U.S. trade deal welcomed by Bank of England</li>
+                            <li>Morgan Stanley predicts weakening U.S. dollar</li>
+                        </ul>
+                    </div>
+                    <div class="view-more">View all news updates →</div>
+                </div>
+            </a>
+            
+            <!-- Top Movers Card -->
+            <a href="top_performers.html" class="movers-card card">
+                <div class="card-title">
+                    <i>🏆</i> TOP MOVERS
+                </div>
+                <div class="card-content">
+                    <div style="display: flex; justify-content: space-between;">
+                        <div style="width: 48%;">
+                            <div style="font-weight: 600; margin-bottom: 10px; color: var(--accent-green);">Top Gainers</div>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Company</th>
+                                        <th>Price</th>
+                                        <th>Chg %</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>ACS Technologies Ltd.</td>
+                                        <td>₹16.30</td>
+                                        <td class="positive arrow-up">365.70%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Parmeshwari Silk Mil..</td>
+                                        <td>₹21.60</td>
+                                        <td class="positive arrow-up">20.00%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>ideaForge Technology..</td>
+                                        <td>₹463.50</td>
+                                        <td class="positive arrow-up">20.00%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Skyline Millars Ltd.</td>
+                                        <td>₹19.90</td>
+                                        <td class="positive arrow-up">20.00%</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div style="width: 48%;">
+                            <div style="font-weight: 600; margin-bottom: 10px; color: var(--accent-red);">Top Losers</div>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Company</th>
+                                        <th>Price</th>
+                                        <th>Chg %</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Chembond Chemicals L..</td>
+                                        <td>₹341.80</td>
+                                        <td class="negative arrow-down">-37.60%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>CP Capital Ltd.</td>
+                                        <td>₹246.10</td>
+                                        <td class="negative arrow-down">-37.50%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Synoptics Technologi..</td>
+                                        <td>₹52.40</td>
+                                        <td class="negative arrow-down">-19.70%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Amiable Logistic (In..</td>
+                                        <td>₹68.60</td>
+                                        <td class="negative arrow-down">-17.30%</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="view-more">View complete market movers →</div>
+                </div>
+            </a>
+            
+            <!-- Sector Performance Card (updated) -->
+            <a href="sector_performance.html" class="sector-card card">
+                <div class="card-title">
+                    <i>🧩</i> SECTOR PERFORMANCE
+                </div>
+                <div class="card-content">
+                    <div style="font-weight: 600; margin-bottom: 10px; color: var(--accent-green);">Top Sectors</div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Sector</th>
+                                <th>Advances</th>
+                                <th>Declines</th>
+                                <th>Chg %</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Textiles Apparels & Accessories</td>
+                                <td>120</td>
+                                <td>239</td>
+                                <td class="positive arrow-up">2.39%</td>
+                            </tr>
+                            <tr>
+                                <td>General Industrials</td>
+                                <td>146</td>
+                                <td>239</td>
+                                <td class="positive arrow-up">1.07%</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="view-more">View sector performance →</div>
+                </div>
+            </a>
+            
+            <!-- FII/DII Activity Card (updated) -->
+            <a href="fii_activity.html" class="sector-card card">
+                <div class="card-title">
+                    <i>💹</i> FII/DII ACTIVITY
+                </div>
+                <div class="card-content">
+                    <div style="font-weight: 600; margin-bottom: 10px; color: var(--accent-green);">Institutional Flows</div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Buy (Cr)</th>
+                                <th>Sell (Cr)</th>
+                                <th>Net (Cr)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>FII</td>
+                                <td>₹91,187.28</td>
+                                <td>₹83,330.05</td>
+                                <td class="positive">₹7,857.23</td>
+                            </tr>
+                            <tr>
+                                <td>DII</td>
+                                <td>₹80,186.00</td>
+                                <td>₹66,444.55</td>
+                                <td class="positive">₹13,741.45</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="view-more">View FII/DII activity →</div>
+                </div>
+            </a>
+            
+            <!-- Technical Analysis Card -->
+            <a href="technical_snapshot.html" class="technical-card card">
+                <div class="card-title">
+                    <i>🔧</i> TECHNICAL SNAPSHOT
+                </div>
+                <div class="card-content">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Index</th>
+                                <th>RSI</th>
+                                <th>Signal</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Nifty 50</td>
+                                <td>54.06</td>
+                                <td><span class="status-pill neutral">Neutral</span></td>
+                            </tr>
+                            <tr>
+                                <td>Sensex</td>
+                                <td>55.40</td>
+                                <td><span class="status-pill neutral">Neutral</span></td>
+                            </tr>
+                            <tr>
+                                <td>Nifty Bank</td>
+                                <td>51.91</td>
+                                <td><span class="status-pill neutral">Neutral</span></td>
+                            </tr>
+                            <tr>
+                                <td>Nifty IT</td>
+                                <td>53.07</td>
+                                <td><span class="status-pill neutral">Neutral</span></td>
+                            </tr>
+                            <tr>
+                                <td>Nifty FMCG</td>
+                                <td>49.99</td>
+                                <td><span class="status-pill neutral">Neutral</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="view-more">View complete technical analysis →</div>
+                </div>
+            </a>
+            
+            <!-- GLOBAL MARKETS & INDICATORS (move this above predictions) -->
+            <a href="financial_indicators.html" class="full-width-card card">
+                <div class="card-title">
+                    <i>🌐</i> GLOBAL MARKETS & INDICATORS
+                </div>
+                <div class="card-content">
+                    <div style="display: flex; flex-wrap: wrap; justify-content: space-between;">
+                        <div style="width: 18%; margin-bottom: 15px;">
+                            <div class="highlight-item">
+                                <div class="highlight-value positive">41,368.45 <span style="font-size: 12px; font-weight: normal;" class="positive">+0.62%</span></div>
+                                <div class="highlight-label">DOW JONES</div>
+                            </div>
+                        </div>
+                        <div style="width: 18%; margin-bottom: 15px;">
+                            <div class="highlight-item">
+                                <div class="highlight-value positive">17,928.14 <span style="font-size: 12px; font-weight: normal;" class="positive">+1.07%</span></div>
+                                <div class="highlight-label">NASDAQ</div>
+                            </div>
+                        </div>
+                        <div style="width: 18%; margin-bottom: 15px;">
+                            <div class="highlight-item">
+                                <div class="highlight-value negative">$58.50 <span style="font-size: 12px; font-weight: normal;" class="negative">-1.96%</span></div>
+                                <div class="highlight-label">CRUDE OIL (WTI)</div>
+                            </div>
+                        </div>
+                        <div style="width: 18%; margin-bottom: 15px;">
+                            <div class="highlight-item">
+                                <div class="highlight-value">₹85.53 <span style="font-size: 12px; font-weight: normal;" class="negative">+0.83%</span></div>
+                                <div class="highlight-label">USD/INR</div>
+                            </div>
+                        </div>
+                        <div style="width: 18%; margin-bottom: 15px;">
+                            <div class="highlight-item">
+                                <div class="highlight-value">4.37% <span style="font-size: 12px; font-weight: normal;" class="positive">+2.29%</span></div>
+                                <div class="highlight-label">10Y YIELD</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="view-more">View global market indicators →</div>
+                </div>
+            </a>
+        </div>
+    </div>
+    <div id="notification"></div>
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+    <script>
+    function renderBullets(text) {
+        if (!text) return '<ul><li>No data available.</li></ul>';
+        const lines = text.split('\n').map(l => l.trim()).filter(l => l.startsWith('-'));
+        return '<ul style="padding-left:18px;margin:0;">' + lines.map(l => `<li>${l.replace(/^[-\s]+/, '')}</li>`).join('') + '</ul>';
+    }
+    function renderTopInsights(data) {
+        const analysis = renderBullets(data.market_analysis);
+        const summary = renderBullets(data.market_summary);
+        const predictions = renderBullets(data.market_predictions);
+        document.getElementById('top-insights-grid').innerHTML = `
+            <div class="grid-container" style="margin-bottom: 20px; grid-template-columns: repeat(3, 1fr);">
+                <div class="card" style="min-width:0;">
+                    <div class="card-title"><i>📈</i> MARKET ANALYSIS</div>
+                    <div class="card-content">${analysis}</div>
+                </div>
+                <div class="card" style="min-width:0;">
+                    <div class="card-title"><i>📝</i> MARKET SUMMARY</div>
+                    <div class="card-content">${summary}</div>
+                </div>
+                <div class="card" style="min-width:0;">
+                    <div class="card-title"><i>🔮</i> MARKET PREDICTIONS</div>
+                    <div class="card-content">${predictions}</div>
+                </div>
+            </div>
+        `;
+    }
+    function setDateTime() {
+        const now = new Date();
+        document.getElementById('dashboard-date').textContent = now.toLocaleDateString();
+        document.getElementById('dashboard-time').textContent = 'Last updated: ' + now.toLocaleTimeString();
+    }
+    function notify(msg, color) {
+        const n = document.getElementById('notification');
+        n.innerText = msg;
+        n.style.display = 'block';
+        n.style.color = color || 'var(--accent-green)';
+        setTimeout(() => { n.style.display = 'none'; }, 3500);
+        }
+    function fetchAndRender(triggerSource) {
+        // Do not show loading overlay for auto and manual refresh
+        if (triggerSource === 'initial') {
+            document.getElementById('loading-overlay').style.display = 'flex';
+        }
+        fetch('http://127.0.0.1:8009/api/comprehensive-market-data')
+            .then(res => res.json())
+            .then(data => {
+                document.getElementById('loading-overlay').style.display = 'none';
+                renderTopInsights(data);
+                setDateTime();
+                saveCache(data);
+                notify('Data refreshed (' + triggerSource + ')');
+                console.log('Data refreshed by', triggerSource);
+                backgroundPDFNotify();
+            })
+            .catch(() => {
+                document.getElementById('loading-overlay').style.display = 'none';
+                if (triggerSource === 'initial') {
+                    document.getElementById('top-insights-grid').innerHTML = '<div class="card"><div class="card-title">Error</div><div class="card-content">Failed to load data.</div></div>';
+                }
+                notify('Failed to refresh data', 'var(--accent-red)');
+            });
+    }
+    function saveCache(data) {
+        sessionStorage.setItem('dashboardData', JSON.stringify(data));
+        sessionStorage.setItem('dashboardDataTime', Date.now().toString());
+    }
+    function useCache() {
+        const cached = sessionStorage.getItem('dashboardData');
+        const cachedTime = sessionStorage.getItem('dashboardDataTime');
+        const cacheDuration = 15 * 60 * 1000;
+        if (cached && cachedTime) {
+            const age = Date.now() - parseInt(cachedTime, 10);
+            if (age < cacheDuration) {
+                return JSON.parse(cached);
+            }
+        }
+        return null;
+    }
+    function startAutoRefresh() {
+        setInterval(() => {
+            const cachedTime = sessionStorage.getItem('dashboardDataTime');
+            const cacheDuration = 15 * 60 * 1000;
+            if (!cachedTime || (Date.now() - parseInt(cachedTime, 10)) >= cacheDuration) {
+                fetchAndRender('auto');
+            } else {
+                console.log('Auto-refresh checked, cache still valid.');
+            }
+        }, 15 * 60 * 1000); // 15 min
+    }
+    window.addEventListener('DOMContentLoaded', function() {
+        setDateTime();
+        // Initial load
+        const cachedData = useCache();
+        if (cachedData) {
+            document.getElementById('loading-overlay').style.display = 'none';
+            renderTopInsights(cachedData);
+            setDateTime();
+            backgroundPDFNotify();
+            fetchAndRender('background'); // Fetch fresh data in the background
+        } else {
+            fetchAndRender('initial');
+        }
+        // Manual refresh
+        document.getElementById('refresh-btn').onclick = function() {
+            fetchAndRender('manual');
+        };
+        // Start auto-refresh every 15 min
+        startAutoRefresh();
+    });
+    // Background PDF fetch and notify
+    function backgroundPDFNotify() {
+        var btn = document.getElementById('download-pdf-btn');
+        btn.disabled = true;
+        btn.innerText = '⏳ Preparing PDF...';
+        fetch('http://127.0.0.1:8009/api/pdf/comprehensive-market-data-pdf')
+            .then(response => response.blob())
+            .then(blob => {
+                notify('Download is available! Click Download PDF to get your report.');
+                btn.disabled = false;
+                btn.innerText = '⬇️ Download PDF';
+                console.log('Background PDF ready');
+            })
+            .catch(() => {
+                notify('Failed to prepare PDF in background', 'var(--accent-red)');
+                btn.disabled = false;
+                btn.innerText = '⬇️ Download PDF';
+            });
+    }
+    </script>
+</body>
+</html>

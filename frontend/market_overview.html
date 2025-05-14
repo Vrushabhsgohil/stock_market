@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Market Overview Dashboard</title>
+    <style>
+        :root {
+            --primary: #1a2942;
+            --secondary: #2e4a6a;
+            --accent: #f45b5b;
+            --accent-green: #26a69a;
+            --accent-red: #ef5350;
+            --light: #f8f9fa;
+            --gray: #e9ecef;
+            --dark-gray: #6c757d;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f2f5;
+            color: var(--primary);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px 10px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header-left h1 {
+            margin: 0;
+            font-size: 28px;
+            font-weight: 700;
+        }
+        
+        .header-left p {
+            margin: 5px 0 0;
+            font-size: 14px;
+            opacity: 0.8;
+        }
+        
+        .header-right {
+            text-align: right;
+        }
+        
+        .date {
+            font-size: 16px;
+            font-weight: 500;
+        }
+        
+        .time {
+            font-size: 14px;
+            opacity: 0.8;
+        }
+        
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            grid-gap: 20px;
+            padding: 20px;
+            background-color: white;
+            border-radius: 0 0 10px 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .card {
+            background: white;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--accent);
+        }
+        
+        .card.positive::after {
+            background: var(--accent-green);
+        }
+        
+        .card.negative::after {
+            background: var(--accent-red);
+        }
+        
+        .card-title {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            font-weight: 600;
+            font-size: 16px;
+            color: var(--primary);
+        }
+        
+        .card-title i {
+            margin-right: 8px;
+            color: var(--accent);
+        }
+        
+        .card-content {
+            font-size: 14px;
+        }
+        
+        .main-indices-card {
+            grid-column: span 12;
+        }
+        
+        .nifty-card {
+            grid-column: span 6;
+        }
+        
+        .sensex-card {
+            grid-column: span 6;
+        }
+        
+        .sector-card {
+            grid-column: span 4;
+        }
+        
+        .insights-card {
+            grid-column: span 12;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        th {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid var(--gray);
+            font-weight: 600;
+            font-size: 12px;
+            color: var(--dark-gray);
+        }
+        
+        td {
+            padding: 10px;
+            border-bottom: 1px solid var(--gray);
+            font-size: 13px;
+        }
+        
+        .positive {
+            color: var(--accent-green);
+        }
+        
+        .negative {
+            color: var(--accent-red);
+        }
+        
+        .neutral {
+            color: var(--dark-gray);
+        }
+        
+        .status-pill {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        
+        .status-pill.bearish {
+            background-color: rgba(239, 83, 80, 0.15);
+            color: var(--accent-red);
+        }
+        
+        .status-pill.bullish {
+            background-color: rgba(38, 166, 154, 0.15);
+            color: var(--accent-green);
+        }
+        
+        .status-pill.neutral {
+            background-color: rgba(108, 117, 125, 0.15);
+            color: var(--dark-gray);
+        }
+        
+        .arrow-up::before {
+            content: "▲ ";
+        }
+        
+        .arrow-down::before {
+            content: "▼ ";
+        }
+        
+        .view-more {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 10px;
+            color: var(--secondary);
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+        }
+        
+        .highlight-section {
+            margin-top: 20px;
+            padding: 15px;
+            background: linear-gradient(135deg, rgba(26, 41, 66, 0.03) 0%, rgba(26, 41, 66, 0.08) 100%);
+            border-radius: 8px;
+        }
+        
+        .highlight-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+        
+        .highlight-items {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+        
+        .highlight-item {
+            text-align: center;
+            padding: 10px;
+            background-color: white;
+            border-radius: 8px;
+            flex: 1;
+            margin: 0 5px 10px;
+            min-width: 150px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+        
+        .highlight-value {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        
+        .highlight-label {
+            font-size: 11px;
+            color: var(--dark-gray);
+        }
+        
+        .highlight-change {
+            font-size: 12px;
+            font-weight: normal;
+        }
+        
+        .index-detail {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+        
+        .index-name {
+            font-size: 18px;
+            font-weight: 600;
+        }
+        
+        .index-price {
+            font-size: 22px;
+            font-weight: 700;
+        }
+        
+        .index-change {
+            font-size: 14px;
+            font-weight: 500;
+        }
+        
+        .price-range {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+            padding: 10px;
+            background-color: var(--light);
+            border-radius: 8px;
+        }
+        
+        .range-item {
+            text-align: center;
+        }
+        
+        .range-label {
+            font-size: 11px;
+            color: var(--dark-gray);
+            margin-bottom: 5px;
+        }
+        
+        .range-value {
+            font-size: 14px;
+            font-weight: 600;
+        }
+        
+        .insights-content {
+            line-height: 1.6;
+            text-align: justify;
+        }
+        
+        @media (max-width: 768px) {
+            .nifty-card, .sensex-card {
+                grid-column: span 12;
+            }
+            
+            .sector-card {
+                grid-column: span 6;
+            }
+            
+            .highlight-item {
+                min-width: 120px;
+                margin-bottom: 10px;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .sector-card {
+                grid-column: span 12;
+            }
+            
+            .highlight-item {
+                min-width: 100%;
+                margin: 0 0 10px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div style="margin-bottom: 20px;"><a href="comprehensive_report.html" style="color: var(--secondary); font-weight: 600; text-decoration: none;">← Back to Dashboard</a></div>
+        <!-- Header Section -->
+        <div class="header">
+            <div class="header-left">
+                <h1>MARKET OVERVIEW</h1>
+                <p>INDIAN MARKETS REPORT</p>
+            </div>
+            <div class="header-right">
+                <div class="date">May 09, 2025</div>
+                <div class="time">Last updated: 14:37:10</div>
+                <div class="dashboard-actions">
+                    <button id="refresh-btn">🔄 Refresh</button>
+                    <button id="save-image-btn">🖼️ Save as Image</button>
+                </div>
+            </div>
+        </div>
+        <div id="notification"></div>
+        
+        <!-- Dashboard Grid -->
+        <div class="grid-container">
+            <!-- Major Indices Overview Card -->
+            <div class="main-indices-card card negative">
+                <div class="card-title">
+                    <i>📊</i> MAJOR INDICES
+                </div>
+                <div class="card-content">
+                    <div class="highlight-items">
+                        <div class="highlight-item">
+                            <div class="highlight-value negative">23,980.20 <span class="highlight-change negative arrow-down">1.78%</span></div>
+                            <div class="highlight-label">NIFTY 50</div>
+                        </div>
+                        <div class="highlight-item">
+                            <div class="highlight-value negative">79,448.72 <span class="highlight-change negative arrow-down">1.61%</span></div>
+                            <div class="highlight-label">SENSEX</div>
+                        </div>
+                        <div class="highlight-item">
+                            <div class="highlight-value negative">53,562.15 <span class="highlight-change negative arrow-down">1.92%</span></div>
+                            <div class="highlight-label">BANK NIFTY</div>
+                        </div>
+                        <div class="highlight-item">
+                            <div class="highlight-value negative">35,849.30 <span class="highlight-change negative arrow-down">0.20%</span></div>
+                            <div class="highlight-label">NIFTY IT</div>
+                        </div>
+                        <div class="highlight-item">
+                            <div class="highlight-value negative">21,625.60 <span class="highlight-change negative arrow-down">2.02%</span></div>
+                            <div class="highlight-label">NIFTY AUTO</div>
+                        </div>
+                        <div class="highlight-item">
+                            <div class="highlight-value negative">15,040.10 <span class="highlight-change negative arrow-down">2.38%</span></div>
+                            <div class="highlight-label">NIFTY MIDCAP 50</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Nifty 50 Detail Card -->
+            <div class="nifty-card card negative">
+                <div class="card-title">
+                    <i>📈</i> NIFTY 50 DETAILS
+                </div>
+                <div class="card-content">
+                    <div class="index-detail">
+                        <div>
+                            <div class="index-name">NIFTY 50</div>
+                            <div class="index-price negative">23,980.20</div>
+                            <div class="index-change negative arrow-down">
+                                -1.78% (−434.20)
+                            </div>
+                        </div>
+                        <div>
+                            <span class="status-pill bearish">BEARISH</span>
+                        </div>
+                    </div>
+                    
+                    <div class="price-range">
+                        <div class="range-item">
+                            <div class="range-label">OPEN</div>
+                            <div class="range-value">23,935.75</div>
+                        </div>
+                        <div class="range-item">
+                            <div class="range-label">HIGH</div>
+                            <div class="range-value">24,164.25</div>
+                        </div>
+                        <div class="range-item">
+                            <div class="range-label">LOW</div>
+                            <div class="range-value">23,935.75</div>
+                        </div>
+                        <div class="range-item">
+                            <div class="range-label">PREV</div>
+                            <div class="range-value">24,414.40</div>
+                        </div>
+                    </div>
+                    
+                    <div class="view-more">View detailed analysis →</div>
+                </div>
+            </div>
+            
+            <!-- Sensex Detail Card -->
+            <div class="sensex-card card negative">
+                <div class="card-title">
+                    <i>📉</i> SENSEX DETAILS
+                </div>
+                <div class="card-content">
+                    <div class="index-detail">
+                        <div>
+                            <div class="index-name">SENSEX</div>
+                            <div class="index-price negative">79,448.72</div>
+                            <div class="index-change negative arrow-down">
+                                -1.61% (−1,298.06)
+                            </div>
+                        </div>
+                        <div>
+                            <span class="status-pill bearish">BEARISH</span>
+                        </div>
+                    </div>
+                    
+                    <div class="price-range">
+                        <div class="range-item">
+                            <div class="range-label">OPEN</div>
+                            <div class="range-value">78,968.34</div>
+                        </div>
+                        <div class="range-item">
+                            <div class="range-label">HIGH</div>
+                            <div class="range-value">80,032.93</div>
+                        </div>
+                        <div class="range-item">
+                            <div class="range-label">LOW</div>
+                            <div class="range-value">78,968.34</div>
+                        </div>
+                        <div class="range-item">
+                            <div class="range-label">PREV</div>
+                            <div class="range-value">80,746.78</div>
+                        </div>
+                    </div>
+                    
+                    <div class="view-more">View detailed analysis →</div>
+                </div>
+            </div>
+            
+            <!-- Bank Nifty Card -->
+            <div class="sector-card card negative">
+                <div class="card-title">
+                    <i>🏦</i> BANK NIFTY
+                </div>
+                <div class="card-content">
+                    <div class="index-detail">
+                        <div>
+                            <div class="index-name">BANK NIFTY</div>
+                            <div class="index-price negative">53,562.15</div>
+                            <div class="index-change negative arrow-down">
+                                -1.92% (−1,048.75)
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="price-range">
+                        <div class="range-item">
+                            <div class="range-label">OPEN</div>
+                            <div class="range-value">53,595.95</div>
+                        </div>
+                        <div class="range-item">
+                            <div class="range-label">HIGH</div>
+                            <div class="range-value">54,054.80</div>
+                        </div>
+                        <div class="range-item">
+                            <div class="range-label">LOW</div>
+                            <div class="range-value">53,483.05</div>
+                        </div>
+                    </div>
+                    <div class="view-more">View details →</div>
+                </div>
+            </div>
+            
+            <!-- Nifty IT Card -->
+            <div class="sector-card card negative">
+                <div class="card-title">
+                    <i>💻</i> NIFTY IT
+                </div>
+                <div class="card-content">
+                    <div class="index-detail">
+                        <div>
+                            <div class="index-name">NIFTY IT</div>
+                            <div class="index-price negative">35,849.30</div>
+                            <div class="index-change negative arrow-down">
+                                -0.20% (−71.00)
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="price-range">
+                        <div class="range-item">
+                            <div class="range-label">OPEN</div>
+                            <div class="range-value">35,490.90</div>
+                        </div>
+                        <div class="range-item">
+                            <div class="range-label">HIGH</div>
+                            <div class="range-value">35,929.30</div>
+                        </div>
+                        <div class="range-item">
+                            <div class="range-label">LOW</div>
+                            <div class="range-value">35,488.40</div>
+                        </div>
+                    </div>
+                    <div class="view-more">View details →</div>
+                </div>
+            </div>
+            
+            <!-- Nifty Midcap Card -->
+            <div class="sector-card card negative">
+                <div class="card-title">
+                    <i>🏭</i> NIFTY MIDCAP 50
+                </div>
+                <div class="card-content">
+                    <div class="index-detail">
+                        <div>
+                            <div class="index-name">NIFTY MIDCAP 50</div>
+                            <div class="index-price negative">15,040.10</div>
+                            <div class="index-change negative arrow-down">
+                                -2.38% (−367.30)
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="price-range">
+                        <div class="range-item">
+                            <div class="range-label">OPEN</div>
+                            <div class="range-value">14,785.05</div>
+                        </div>
+                        <div class="range-item">
+                            <div class="range-label">HIGH</div>
+                            <div class="range-value">15,073.40</div>
+                        </div>
+                        <div class="range-item">
+                            <div class="range-label">LOW</div>
+                            <div class="range-value">14,783.90</div>
+                        </div>
+                    </div>
+                    <div class="view-more">View details →</div>
+                </div>
+            </div>
+            
+            <!-- Market Insights Card -->
+            <div class="insights-card card">
+                <div class="card-title">
+                    <i>🔍</i> MARKET INSIGHTS
+                </div>
+                <div class="card-content">
+                    <div class="insights-content">
+                        <p>The Indian market exhibited a significantly negative sentiment today, evidenced by substantial declines across major indices. NIFTY 50 and SENSEX both experienced considerable drops of -1.78% and -1.61% respectively, indicating broad-based selling pressure.</p>
+                        
+                        <p>Banking sector faced significant pressure, with Bank Nifty falling by -1.92%, contributing to the overall downturn, while the Nifty IT index relatively outperformed with a minimal decline of -0.2%.</p>
+                        
+                        <p>The Nifty Midcap 50 experienced the sharpest correction among the indices with a decrease of -2.38%, suggesting heightened risk aversion towards mid-sized companies.</p>
+                        
+                        <p>The broad-based selling could be attributed to profit-taking after recent gains and potentially influenced by global market cues or domestic economic concerns. Given today's performance, a cautious outlook is warranted, with potential for continued volatility in the near term.</p>
+                    </div>
+                    <div class="highlight-section">
+                        <div class="highlight-title">MARKET OUTLOOK</div>
+                        <div style="background: linear-gradient(135deg, rgba(26, 41, 66, 0.05) 0%, rgba(26, 41, 66, 0.1) 100%); padding: 10px; border-radius: 6px;">
+                            <div style="margin-bottom: 10px;">
+                                <span style="font-weight: 600;">Market Stance:</span>
+                                <span class="status-pill bearish" style="margin-left: 10px;">BEARISH</span>
+                            </div>
+                            <div style="font-size: 13px;">
+                                Investors should maintain a cautious approach given the broad-based selling across sectors. The relatively better performance of IT stocks suggests potential defensive positioning. Monitor global cues and domestic economic indicators for further market direction. Risk management should be prioritized over aggressive buying in the current volatile environment.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+    <script>
+    // --- Utility functions ---
+    function notify(msg, color) {
+        const n = document.getElementById('notification');
+        n.innerText = msg;
+        n.style.display = 'block';
+        n.style.color = color || 'var(--accent-green)';
+        setTimeout(() => { n.style.display = 'none'; }, 3500);
+    }
+
+    // --- Render market overview data from JSON ---
+    function renderMarketOverview(data) {
+        // Update major indices
+        const highlights = document.querySelectorAll('.highlight-item');
+        if (highlights.length && data.market_overview?.indices) {
+            data.market_overview.indices.forEach((idx, i) => {
+                if (highlights[i]) {
+                    highlights[i].querySelector('.highlight-value').innerHTML = `${idx.ltp} <span class="highlight-change ${parseFloat(idx.day_change) < 0 ? 'negative arrow-down' : 'positive arrow-up'}">${idx.day_change_percent}</span>`;
+                    highlights[i].querySelector('.highlight-label').innerText = idx.name;
+                }
+            });
+        }
+        // Optionally update insights (if present)
+        const insights = document.querySelector('.insights-content');
+        if (insights && data.market_overview?.insights) {
+            insights.innerText = data.market_overview.insights;
+        }
+    }
+
+    // --- Fetch and render logic ---
+    function fetchAndRender(triggerSource, showLoading) {
+        if (showLoading) notify(triggerSource === 'manual' ? 'Refresh is happening...' : 'Loading new data...');
+        fetch('http://127.0.0.1:8009/api/market-overview')
+            .then(res => res.json())
+            .then(data => {
+                renderMarketOverview(data);
+                sessionStorage.setItem('market_overview_data', JSON.stringify(data));
+                notify(triggerSource === 'auto' ? 'Auto-refresh complete' : 'Data refreshed');
+                console.log('Data refreshed by', triggerSource);
+            })
+            .catch(() => {
+                notify('Failed to refresh data', 'var(--accent-red)');
+            });
+    }
+
+    // --- Auto-refresh logic ---
+    function startAutoRefresh() {
+        setInterval(() => {
+            fetchAndRender('auto', false); // background, no loading overlay
+        }, 15 * 60 * 1000);
+    }
+
+    window.addEventListener('DOMContentLoaded', function() {
+        // 1. Try to load from sessionStorage
+        const cached = sessionStorage.getItem('market_overview_data');
+        if (cached) {
+            try {
+                renderMarketOverview(JSON.parse(cached));
+            } catch {}
+        }
+        // 2. Always fetch new data in background
+        fetchAndRender('initial', true);
+        // 3. Manual refresh
+        document.getElementById('refresh-btn').onclick = function() {
+            fetchAndRender('manual', true);
+        };
+        // 4. Save as Image
+        document.getElementById('save-image-btn').onclick = function() {
+            html2canvas(document.body).then(canvas => {
+                const link = document.createElement('a');
+                link.download = 'market_overview.png';
+                link.href = canvas.toDataURL();
+                link.click();
+                notify('Image saved!');
+                console.log('Save as image triggered by user');
+            });
+        };
+        // 5. Start auto-refresh every 15 min (background)
+        startAutoRefresh();
+    });
+    </script>
+</body>
+</html>

@@ -1,0 +1,59 @@
+{
+  "date": "May 08, 2025",
+  "snapshot": {
+    "Nifty 50": {
+      "close": 23981.05,
+      "support": 22161.6,
+      "rsi": 53.74,
+      "macd": {
+        "line": 322.49,
+        "signal": 328.47
+      }
+    },
+    "Sensex": {
+      "close": 79318.52,
+      "support": 73137.9,
+      "rsi": 55.26,
+      "macd": {
+        "line": 1140.89,
+        "signal": 1116.83
+      }
+    },
+    "Nifty Bank": {
+      "close": 53553.85,
+      "support": 49860.1,
+      "rsi": 51.72,
+      "macd": {
+        "line": 957.23,
+        "signal": 1181.1
+      }
+    },
+    "Nifty IT": {
+      "close": 35836.35,
+      "support": 32517.35,
+      "rsi": 52.77,
+      "macd": {
+        "line": -35.22,
+        "signal": -334.94
+      }
+    },
+    "Nifty FMCG": {
+      "close": 55581.7,
+      "support": 53241.15,
+      "rsi": 49.81,
+      "macd": {
+        "line": 663.27,
+        "signal": 823.4
+      }
+    }
+  },
+  "insights": [
+    "Nifty 50 shows positive momentum, but watch for resistance near its all-time high.",
+    "Sensex is trending upwards, with support at 73137.9, suggesting bullish continuation.",
+    "Nifty Bank's MACD indicates a potential bearish crossover, warranting caution.",
+    "Nifty IT's negative MACD suggests continued underperformance in the sector.",
+    "Nifty FMCG's RSI near 50 implies a neutral outlook, lacking strong directional bias.",
+    "Across indices, RSI values suggest no immediate overbought or oversold conditions.",
+    "The MACD line crossing above the signal line in Sensex indicates bullish momentum."
+  ]
+}

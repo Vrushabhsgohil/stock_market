@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sector Performance</title>
+    <style>
+        :root {
+            --primary: #1a2942;
+            --secondary: #2e4a6a;
+            --accent: #f45b5b;
+            --accent-green: #26a69a;
+            --accent-red: #ef5350;
+            --light: #f8f9fa;
+            --gray: #e9ecef;
+            --dark-gray: #6c757d;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f2f5;
+            color: var(--primary);
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px 10px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .header-left h1 {
+            margin: 0;
+            font-size: 28px;
+            font-weight: 700;
+        }
+        .header-left p {
+            margin: 5px 0 0;
+            font-size: 14px;
+            opacity: 0.8;
+        }
+        .header-right {
+            text-align: right;
+        }
+        .date {
+            font-size: 16px;
+            font-weight: 500;
+        }
+        .time {
+            font-size: 14px;
+            opacity: 0.8;
+        }
+        .card {
+            background: white;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            margin-bottom: 20px;
+        }
+        .card-title {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            font-weight: 600;
+            font-size: 16px;
+            color: var(--primary);
+        }
+        .card-title i {
+            margin-right: 8px;
+            color: var(--accent);
+        }
+        .card-content {
+            font-size: 14px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid var(--gray);
+            font-weight: 600;
+            font-size: 12px;
+            color: var(--dark-gray);
+        }
+        td {
+            padding: 10px;
+            border-bottom: 1px solid var(--gray);
+            font-size: 13px;
+        }
+        .positive {
+            color: var(--accent-green);
+        }
+        .negative {
+            color: var(--accent-red);
+        }
+        .dashboard-actions {
+            margin-top: 10px;
+            display: flex;
+            gap: 10px;
+        }
+        .dashboard-actions button {
+            background: var(--secondary);
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 7px 16px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .dashboard-actions button:hover {
+            background: var(--accent);
+        }
+        #notification {
+            display: none;
+            color: var(--accent-green);
+            margin-top: 10px;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div style="margin-bottom: 20px;"><a href="comprehensive_report.html" style="color: var(--secondary); font-weight: 600; text-decoration: none;">← Back to Dashboard</a></div>
+        <div class="header">
+            <div class="header-left">
+                <h1>SECTOR PERFORMANCE</h1>
+                <p>MARKET BREADTH</p>
+            </div>
+            <div class="header-right">
+                <div class="date">May 10, 2025</div>
+                <div class="time">Last updated: 23:30:06</div>
+                <div class="dashboard-actions">
+                    <button id="refresh-btn">🔄 Refresh</button>
+                    <button id="save-image-btn">🖼️ Save as Image</button>
+                </div>
+            </div>
+        </div>
+        <div id="notification"></div>
+        <div class="card">
+            <div class="card-title">
+                <i>🔍</i> SECTOR INSIGHTS
+            </div>
+            <div class="card-content">
+                <ul style="padding-left: 18px; margin: 0; line-height: 1.6;">
+                    <li>Textiles, Apparels & Accessories sector shows relative strength, but a high number of declines suggest caution despite the positive change.</li>
+                    <li>General Industrials also experienced advances but had an equal number of declines compared to Textiles, signaling potential headwinds in industrial activity.</li>
+                    <li>Agriculture and Chemicals saw a moderate gain with more declines, indicating possible cost pressures or demand shifts within the sector.</li>
+                    <li>Infrastructure's slight decline with significantly more declines points to potential concerns about government spending or project delays.</li>
+                    <li>Textiles and Apparel sector presents a possible short-term opportunity but requires careful monitoring due to the number of declines.</li>
+                    <li>Sector rotation may favor more defensive sectors if the Infrastructure weakness persists, suggesting a risk-off sentiment in the market.</li>
+                    <li>Investors should monitor economic data related to consumer spending, industrial production, and government projects to assess sector performance.</li>
+                </ul>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-title">
+                <i>🧩</i> SECTOR PERFORMANCE
+            </div>
+            <div class="card-content">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Sector</th>
+                            <th>Advances</th>
+                            <th>Declines</th>
+                            <th>Change %</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Textiles Apparels & Accessories</td>
+                            <td>120</td>
+                            <td>239</td>
+                            <td class="positive">+2.39%</td>
+                        </tr>
+                        <tr>
+                            <td>General Industrials</td>
+                            <td>146</td>
+                            <td>239</td>
+                            <td class="positive">+1.07%</td>
+                        </tr>
+                        <tr>
+                            <td>Agriculture and Chemicals</td>
+                            <td>80</td>
+                            <td>139</td>
+                            <td class="positive">+0.21%</td>
+                        </tr>
+                        <tr>
+                            <td>Media</td>
+                            <td>31</td>
+                            <td>56</td>
+                            <td class="positive">+0.02%</td>
+                        </tr>
+                        <tr>
+                            <td>Infrastructure</td>
+                            <td>63</td>
+                            <td>155</td>
+                            <td class="negative">-0.04%</td>
+                        </tr>
+                        <tr>
+                            <td>Diversified Consumer Services</td>
+                            <td>36</td>
+                            <td>98</td>
+                            <td class="negative">-0.20%</td>
+                        </tr>
+                        <tr>
+                            <td>Metals and Mining</td>
+                            <td>55</td>
+                            <td>140</td>
+                            <td class="negative">-0.21%</td>
+                        </tr>
+                        <tr>
+                            <td>Consumer Durables</td>
+                            <td>51</td>
+                            <td>98</td>
+                            <td class="negative">-0.36%</td>
+                        </tr>
+                        <tr>
+                            <td>Automobiles</td>
+                            <td>51</td>
+                            <td>130</td>
+                            <td class="negative">-0.39%</td>
+                        </tr>
+                        <tr>
+                            <td>Others</td>
+                            <td>5</td>
+                            <td>22</td>
+                            <td class="negative">-0.43%</td>
+                        </tr>
+                        <tr>
+                            <td>FMCG</td>
+                            <td>32</td>
+                            <td>76</td>
+                            <td class="negative">-0.52%</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+    <script>
+    // --- Utility functions ---
+    function notify(msg, color) {
+        const n = document.getElementById('notification');
+        n.innerText = msg;
+        n.style.display = 'block';
+        n.style.color = color || 'var(--accent-green)';
+        setTimeout(() => { n.style.display = 'none'; }, 3500);
+    }
+
+    // --- Render sector data from JSON ---
+    function renderSectorData(data) {
+        // Update table
+        const tbody = document.querySelector('table tbody');
+        if (!tbody) return;
+        tbody.innerHTML = '';
+        (data.sector_movement?.data || []).forEach(row => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td>${row.sector_name}</td>
+                <td>${row.advances}</td>
+                <td>${row.declines}</td>
+                <td class="${row.change_percentage >= 0 ? 'positive' : 'negative'}">${row.change_percentage >= 0 ? '+' : ''}${row.change_percentage.toFixed(2)}%</td>
+            `;
+            tbody.appendChild(tr);
+        });
+        // Update insights
+        const insights = document.querySelector('.card-content ul');
+        if (insights && data.sector_movement?.insight) {
+            insights.innerHTML = data.sector_movement.insight
+                .split('\n')
+                .map(line => `<li>${line.replace(/^[-•]\s*/, '')}</li>`)
+                .join('');
+        }
+    }
+
+    // --- Fetch and render logic ---
+    function fetchAndRender(triggerSource, showLoading) {
+        if (showLoading) notify(triggerSource === 'manual' ? 'Refresh is happening...' : 'Loading new data...');
+        fetch('http://127.0.0.1:8009/api/sector-performance')
+            .then(res => res.json())
+            .then(data => {
+                renderSectorData(data);
+                sessionStorage.setItem('sector_performance_data', JSON.stringify(data));
+                notify(triggerSource === 'auto' ? 'Auto-refresh complete' : 'Data refreshed');
+                console.log('Data refreshed by', triggerSource);
+            })
+            .catch(() => {
+                notify('Failed to refresh data', 'var(--accent-red)');
+            });
+    }
+
+    // --- Auto-refresh logic ---
+    function startAutoRefresh() {
+        setInterval(() => {
+            fetchAndRender('auto', false); // background, no loading overlay
+        }, 15 * 60 * 1000);
+    }
+
+    window.addEventListener('DOMContentLoaded', function() {
+        // 1. Try to load from sessionStorage
+        const cached = sessionStorage.getItem('sector_performance_data');
+        if (cached) {
+            try {
+                renderSectorData(JSON.parse(cached));
+            } catch {}
+        }
+        // 2. Always fetch new data in background
+        fetchAndRender('initial', true);
+        // 3. Manual refresh
+        document.getElementById('refresh-btn').onclick = function() {
+            fetchAndRender('manual', true);
+        };
+        // 4. Save as Image
+        document.getElementById('save-image-btn').onclick = function() {
+            html2canvas(document.body).then(canvas => {
+                const link = document.createElement('a');
+                link.download = 'sector_performance.png';
+                link.href = canvas.toDataURL();
+                link.click();
+                notify('Image saved!');
+                console.log('Save as image triggered by user');
+            });
+        };
+        // 5. Start auto-refresh every 15 min (background)
+        startAutoRefresh();
+    });
+    </script>
+</body>
+</html> 
